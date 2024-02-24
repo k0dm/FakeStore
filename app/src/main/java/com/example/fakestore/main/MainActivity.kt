@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity(), ProvideViewModel {
                 else -> false
             }
         }
-
+        viewModel.init(isFirstRun = savedInstanceState == null)
     }
 
     override fun <T : ViewModel> viewModel(clazz: Class<out T>): T {
