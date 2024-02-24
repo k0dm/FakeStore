@@ -1,6 +1,7 @@
 package com.example.fakestore.main
 
 import androidx.lifecycle.LiveData
+import com.example.fakestore.products.CategoryScreen
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -30,7 +31,7 @@ class MainViewModelTest {
 
     @Test
     fun testGoToProductsNavigationBar() {
-        viewModel.navigateToProduct()
+        viewModel.navigateToProducts()
         navigation.checkScreen(CategoryScreen)
     }
 }

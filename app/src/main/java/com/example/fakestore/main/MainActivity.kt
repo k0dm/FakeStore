@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity(), ProvideViewModel {
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.itemProducts -> {
-                    viewModel.navigateToProduct()
+                    viewModel.navigateToProducts()
                     true
                 }
 
