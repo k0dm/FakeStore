@@ -10,5 +10,4 @@ interface Navigation {
     interface Read : ProvideLiveData<Screen>
 
     interface Mutable : Navigate, Read
-
 }
