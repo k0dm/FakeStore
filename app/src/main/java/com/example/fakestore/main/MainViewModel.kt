@@ -2,7 +2,7 @@ package com.example.fakestore.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.fakestore.products.CategoryScreen
+import com.example.fakestore.products.categories.presentation.CategoryScreen
 
 class MainViewModel(
     private val navigation: Navigation.Mutable

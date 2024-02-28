@@ -1,8 +1,7 @@
 package com.example.fakestore.main
 
-import androidx.lifecycle.LiveData
-import com.example.fakestore.products.CategoryScreen
-import org.junit.Assert.assertEquals
+import com.example.fakestore.core.FakeNavigation
+import com.example.fakestore.products.categories.presentation.CategoryScreen
 import org.junit.Before
 import org.junit.Test
 
@@ -13,7 +12,7 @@ class MainViewModelTest {
 
     @Before
     fun setup() {
-        navigation = FakeNavigation()
+        navigation = FakeNavigation.Base()
         viewModel = MainViewModel(navigation = navigation)
     }
 
@@ -36,19 +35,3 @@ class MainViewModelTest {
     }
 }
 
-private class FakeNavigation : Navigation.Mutable {
-
-    private var actualScreen: Screen = Screen.Empty
-
-    override fun updateUi(value: Screen) {
-        actualScreen = value
-    }
-
-    override fun liveData(): LiveData<Screen> {
-        throw IllegalAccessException("don't use in unit test")
-    }
-
-    fun checkScreen(expectedScreen: Screen) {
-        assertEquals(expectedScreen, actualScreen)
-    }
-}
