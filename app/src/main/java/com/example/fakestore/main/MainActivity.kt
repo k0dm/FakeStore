@@ -40,6 +40,10 @@ class MainActivity : AppCompatActivity(), ProvideViewModel {
             }
         }
         viewModel.init(isFirstRun = savedInstanceState == null)
+
+        viewModel.liveData().observe(this) {
+            it.show(binding.container.id, supportFragmentManager)
+        }
     }
 
     override fun <T : ViewModel> viewModel(clazz: Class<out T>): T {
