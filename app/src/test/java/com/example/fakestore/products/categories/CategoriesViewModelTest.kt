@@ -4,14 +4,13 @@ import androidx.lifecycle.LiveData
 import com.example.fakestore.core.FakeNavigation
 import com.example.fakestore.core.FakeNavigationUpdate
 import com.example.fakestore.core.FakeRunAsync
+import com.example.fakestore.products.categories.domain.CategoriesRepository
+import com.example.fakestore.products.categories.domain.LoadCategoriesResult
 import com.example.fakestore.products.categories.presentation.CategoriesCommunication
-import com.example.fakestore.products.categories.presentation.CategoriesRepository
 import com.example.fakestore.products.categories.presentation.CategoriesUiState
 import com.example.fakestore.products.categories.presentation.CategoriesViewModel
-import com.example.fakestore.products.categories.presentation.LoadCategoriesResult
 import com.example.fakestore.products.products.presentation.ProductsScreen
 import org.junit.Assert.assertEquals
-
 import org.junit.Before
 import org.junit.Test
 

@@ -27,8 +27,13 @@ class CategoriesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val viewModel = (activity as ProvideViewModel).viewModel(CategoriesViewModel::class.java)
         val adapter = CategoriesAdapter(viewModel)
+        binding.categoriesRecyclerView.adapter = adapter
 
-        //Todo adapter.update()
+        viewModel.liveData().observe(viewLifecycleOwner) {
+            it.show(adapter)
+        }
+
+        viewModel.init()
     }
 
     override fun onDestroyView() {
