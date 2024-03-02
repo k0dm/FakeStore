@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.example.fakestore.R
+import com.example.fakestore.core.FakeStoreApplication
 import com.example.fakestore.core.ProvideViewModel
 import com.example.fakestore.databinding.ActivityMainBinding
 
@@ -47,6 +48,6 @@ class MainActivity : AppCompatActivity(), ProvideViewModel {
     }
 
     override fun <T : ViewModel> viewModel(clazz: Class<out T>): T {
-        TODO("ProvideViewModel")
+        return (application as FakeStoreApplication).viewModel(clazz)
     }
 }
