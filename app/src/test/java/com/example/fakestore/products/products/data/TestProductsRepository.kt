@@ -37,8 +37,6 @@ class ProductsRepositoryTest {
 
     @Test
     fun testNoCacheAndLoadSuccess() = runBlocking() {
-        cacheDataSource.noCache()
-
         val actualLoadResult = repository.products(category = "category 1")
         assertEquals(
             LoadResult.Success(
@@ -72,35 +70,6 @@ class ProductsRepositoryTest {
             actualLoadResult
         )
 
-        cacheDataSource.saveProducts(
-            listOf(
-
-                ProductEntity(
-                    id = 3,
-                    title = "3",
-                    price = 1.0,
-                    description = "this is 3",
-                    category = "category 1",
-                    imageUrl = "url/image3",
-                    rate = 5.0,
-                    count = 5,
-                    favorite = false,
-                    addedToCart = false
-                ),
-                ProductEntity(
-                    id = 4,
-                    title = "4",
-                    price = 1.0,
-                    description = "this is 4",
-                    category = "category 1",
-                    imageUrl = "url/image4",
-                    rate = 5.0,
-                    count = 5,
-                    favorite = false,
-                    addedToCart = false
-                )
-            )
-        )
 
         cacheDataSource.checkSavedLoadData(
             items = listOf(
@@ -131,26 +100,25 @@ class ProductsRepositoryTest {
                 )
             )
         )
-
     }
 
     @Test
     fun testNoCacheAndLoadError() = runBlocking {
-        cacheDataSource.noCache()
         cloudDataSource.loadError()
 
         val actualLoadResult = repository.products(category = "category 1")
         assertEquals(
-            LoadResult.Error<String>(message = "Problems"),
+            LoadResult.Error<String>(handleError.handle(IllegalAccessException("Problems"))),
             actualLoadResult
         )
 
-        cacheDataSource.saveProducts(listOf())
         cacheDataSource.checkSavedLoadData(listOf())
     }
 
     @Test
     fun testHaveCache() = runBlocking {
+        cacheDataSource.hasCache()
+
         val actualLoadResult = repository.products(category = "category 1")
         assertEquals(
             LoadResult.Success(
@@ -179,8 +147,7 @@ class ProductsRepositoryTest {
                         favorite = false,
                         addedToCart = false,
                     ),
-
-                    )
+                )
             ),
             actualLoadResult
         )
@@ -188,6 +155,8 @@ class ProductsRepositoryTest {
 
     @Test
     fun testChangeFavorite() = runBlocking {
+        cacheDataSource.hasCache()
+
         repository.changeFavorite(id = 1)
         cacheDataSource.checkAddedToFavorites(id = 1)
 
@@ -197,6 +166,8 @@ class ProductsRepositoryTest {
 
     @Test
     fun testChangeCart() = runBlocking {
+        cacheDataSource.hasCache()
+
         repository.changeAddedToCart(id = 1)
         cacheDataSource.checkAddedToCart(id = 1)
 
@@ -246,33 +217,9 @@ private class FakeCloudDataSource() : ProductsCloudDataSource {
 
 private class FakeCacheDataSource() : ProductsCacheDataSource {
 
-    private val cache = arrayListOf<ProductEntity>(
-        ProductEntity(
-            id = 1,
-            title = "1",
-            price = 1.0,
-            description = "this is 1",
-            category = "category 1",
-            imageUrl = "url/image1",
-            rate = 5.0,
-            count = 5,
-            favorite = false,
-            addedToCart = false,
-        ),
-        ProductEntity(
-            id = 2,
-            title = "2",
-            price = 1.0,
-            description = "this is 2",
-            category = "category 1",
-            imageUrl = "url/image2",
-            rate = 4.0,
-            count = 5,
-            favorite = false,
-            addedToCart = false,
-        )
-    )
-    private var hasCache = true
+    private val cache = arrayListOf<ProductEntity>()
+
+    private var hasCache = false
 
     override suspend fun products(): List<ProductEntity> {
         return if (hasCache) cache else emptyList()
@@ -283,12 +230,40 @@ private class FakeCacheDataSource() : ProductsCacheDataSource {
         cache.addAll(products)
     }
 
-    fun noCache() {
-        hasCache = false
+    fun hasCache() {
+        hasCache = true
+        cache.add(
+            ProductEntity(
+                id = 1,
+                title = "1",
+                price = 1.0,
+                description = "this is 1",
+                category = "category 1",
+                imageUrl = "url/image1",
+                rate = 5.0,
+                count = 5,
+                favorite = false,
+                addedToCart = false,
+            )
+        )
+        cache.add(
+            ProductEntity(
+                id = 2,
+                title = "2",
+                price = 1.0,
+                description = "this is 2",
+                category = "category 1",
+                imageUrl = "url/image2",
+                rate = 4.0,
+                count = 5,
+                favorite = false,
+                addedToCart = false,
+            )
+        )
     }
 
     fun checkSavedLoadData(items: List<ProductEntity>) {
-        assertEquals(cache, items)
+        assertEquals(items, cache)
     }
 
     fun checkAddedToFavorites(id: Int) {
@@ -306,7 +281,6 @@ private class FakeCacheDataSource() : ProductsCacheDataSource {
     fun checkRemovedFromCart(id: Int) {
         assertFalse(cache.find { it.id == id }!!.addedToCart)
     }
-
 
     override suspend fun changeItemFavorite(id: Int) {
         val item = cache.find { it.id == id }!!
