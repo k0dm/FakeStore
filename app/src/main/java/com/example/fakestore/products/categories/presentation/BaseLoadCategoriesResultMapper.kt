@@ -1,10 +1,10 @@
 package com.example.fakestore.products.categories.presentation
 
-import com.example.fakestore.products.categories.domain.LoadCategoriesResult
+import com.example.fakestore.core.domain.LoadResult
 
 class BaseLoadCategoriesResultMapper(
     private val communication: CategoriesCommunication
-) : LoadCategoriesResult.Mapper {
+) : LoadResult.Mapper<String> {
 
     override fun mapSuccess(categories: List<String>) {
         communication.updateUi(CategoriesUiState.Success(categories))
