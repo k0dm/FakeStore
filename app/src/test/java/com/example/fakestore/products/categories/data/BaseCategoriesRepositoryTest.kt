@@ -1,9 +1,10 @@
 package com.example.fakestore.products.categories.data
 
+import com.example.fakestore.core.FakeHandleError
+import com.example.fakestore.core.domain.LoadResult
 import com.example.fakestore.products.categories.data.cache.CategoriesCacheDataSource
 import com.example.fakestore.products.categories.data.cloud.CategoriesCloudDataSource
 import com.example.fakestore.products.categories.domain.CategoriesRepository
-import com.example.fakestore.products.categories.domain.LoadCategoriesResult
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -32,9 +33,9 @@ class BaseCategoriesRepositoryTest {
     fun testNoCacheAndLoadSuccess(): Unit = runBlocking {
         cacheDataSource.noCache()
 
-        val actualLoadResult = repository.loadCategories()
+        val actualLoadResult = repository.categories()
         assertEquals(
-            LoadCategoriesResult.Success(categories = listOf("1", "2", "3")),
+            LoadResult.Success(items = listOf("1", "2", "3")),
             actualLoadResult
         )
         cacheDataSource.checkSavedCategories(listOf("1", "2", "3"))
@@ -45,9 +46,9 @@ class BaseCategoriesRepositoryTest {
         cacheDataSource.noCache()
         cloudDataSource.loadError()
 
-        val actualLoadResult = repository.loadCategories()
+        val actualLoadResult = repository.categories()
         assertEquals(
-            LoadCategoriesResult.Error(message = "Problems"),
+            LoadResult.Error<String>(message = "Problems"),
             actualLoadResult
         )
         cacheDataSource.checkSavedCategories(emptyList())
@@ -55,9 +56,9 @@ class BaseCategoriesRepositoryTest {
 
     @Test
     fun testHaveCacheAndLoadSuccess(): Unit = runBlocking {
-        val actualLoadResult = repository.loadCategories()
+        val actualLoadResult = repository.categories()
         assertEquals(
-            LoadCategoriesResult.Success(categories = listOf("4", "5", "6")),
+            LoadResult.Success(items = listOf("4", "5", "6")),
             actualLoadResult
         )
     }
@@ -99,9 +100,3 @@ private class FakeCloudDataSource() : CategoriesCloudDataSource {
     }
 }
 
-private class FakeHandleError() : HandleError {
-
-    override fun handle(exception: Exception): String {
-        return "Problems"
-    }
-}
