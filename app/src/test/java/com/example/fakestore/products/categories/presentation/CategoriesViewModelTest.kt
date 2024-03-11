@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import com.example.fakestore.core.FakeNavigation
 import com.example.fakestore.core.FakeNavigationUpdate
 import com.example.fakestore.core.FakeRunAsync
+import com.example.fakestore.core.domain.LoadResult
 import com.example.fakestore.products.categories.domain.CategoriesRepository
-import com.example.fakestore.products.categories.domain.LoadCategoriesResult
 import com.example.fakestore.products.products.presentation.ProductsScreen
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -99,18 +99,18 @@ private class FakeCategoriesCommunication : CategoriesCommunication {
 
 private class FakeCategoriesRepository() : CategoriesRepository {
 
-    private var loadResult: LoadCategoriesResult =
-        LoadCategoriesResult.Success(categories = listOf<String>("1", "2"))
+    private var loadResult: LoadResult<String> =
+        LoadResult.Success(items = listOf<String>("1", "2"))
 
-    override suspend fun loadCategories(): LoadCategoriesResult {
+    override suspend fun categories(): LoadResult<String> {
         return loadResult
     }
 
     fun loadError() {
-        loadResult = LoadCategoriesResult.Error(message = "Problems")
+        loadResult = LoadResult.Error(message = "Problems")
     }
 
     fun loadSuccess() {
-        loadResult = LoadCategoriesResult.Success(categories = listOf<String>("3", "4"))
+        loadResult = LoadResult.Success(items = listOf<String>("3", "4"))
     }
 }
