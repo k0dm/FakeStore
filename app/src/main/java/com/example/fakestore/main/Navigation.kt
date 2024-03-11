@@ -3,6 +3,8 @@ package com.example.fakestore.main
 import com.example.fakestore.core.LiveDataWrapper
 import com.example.fakestore.core.ProvideLiveData
 import com.example.fakestore.core.UiUpdate
+import javax.inject.Inject
+import javax.inject.Singleton
 
 interface Navigation {
 
@@ -12,5 +14,6 @@ interface Navigation {
 
     interface Mutable : Navigate, Read
 
-    class Base() : Mutable, LiveDataWrapper.Single<Screen>()
+    @Singleton
+    class Base @Inject constructor(): Mutable, LiveDataWrapper.Single<Screen>()
 }
