@@ -1,8 +1,11 @@
 package com.example.fakestore.products.categories.presentation
 
 import com.example.fakestore.products.categories.domain.LoadCategoriesResult
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class BaseLoadCategoriesResultMapper(
+@Singleton
+class BaseLoadCategoriesResultMapper @Inject constructor(
     private val communication: CategoriesCommunication
 ) : LoadCategoriesResult.Mapper {
 

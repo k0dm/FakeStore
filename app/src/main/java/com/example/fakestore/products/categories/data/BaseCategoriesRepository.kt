@@ -4,8 +4,11 @@ import com.example.fakestore.products.categories.data.cache.CategoriesCacheDataS
 import com.example.fakestore.products.categories.data.cloud.CategoriesCloudDataSource
 import com.example.fakestore.products.categories.domain.CategoriesRepository
 import com.example.fakestore.products.categories.domain.LoadCategoriesResult
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class BaseCategoriesRepository(
+@Singleton
+class BaseCategoriesRepository @Inject constructor(
     private val cloudDataSource: CategoriesCloudDataSource,
     private val cacheDataSource: CategoriesCacheDataSource,
     private val handleError: HandleError

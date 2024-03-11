@@ -8,8 +8,11 @@ import com.example.fakestore.products.categories.domain.CategoriesRepository
 import com.example.fakestore.products.categories.domain.LoadCategoriesResult
 import com.example.fakestore.products.categories.presentation.adapter.CategoryAndRetryClickActions
 import com.example.fakestore.products.products.presentation.ProductsScreen
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class CategoriesViewModel(
+@HiltViewModel
+class CategoriesViewModel @Inject constructor(
     private val navigation: Navigation.Navigate,
     private val communication: CategoriesCommunication,
     private val repository: CategoriesRepository,

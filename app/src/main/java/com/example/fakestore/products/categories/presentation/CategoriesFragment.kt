@@ -5,14 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.fakestore.core.ProvideViewModel
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.example.fakestore.databinding.FragmentCategoriesBinding
 import com.example.fakestore.products.categories.presentation.adapter.CategoriesAdapter
+import javax.inject.Inject
 
 class CategoriesFragment : Fragment() {
 
     private var _binding: FragmentCategoriesBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: CategoriesViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,7 +28,6 @@ class CategoriesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val viewModel = (activity as ProvideViewModel).viewModel(CategoriesViewModel::class.java)
         val adapter = CategoriesAdapter(viewModel)
         binding.categoriesRecyclerView.adapter = adapter
 

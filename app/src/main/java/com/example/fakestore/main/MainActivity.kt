@@ -1,22 +1,23 @@
 package com.example.fakestore.main
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModel
 import com.example.fakestore.R
-import com.example.fakestore.core.FakeStoreApplication
-import com.example.fakestore.core.ProvideViewModel
 import com.example.fakestore.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), ProvideViewModel {
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityMainBinding
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val viewModel = viewModel(MainViewModel::class.java)
 
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -45,9 +46,5 @@ class MainActivity : AppCompatActivity(), ProvideViewModel {
         viewModel.liveData().observe(this) {
             it.show(binding.container.id, supportFragmentManager)
         }
-    }
-
-    override fun <T : ViewModel> viewModel(clazz: Class<out T>): T {
-        return (application as FakeStoreApplication).viewModel(clazz)
     }
 }
