@@ -2,13 +2,12 @@ package com.example.fakestore.di
 
 import com.example.fakestore.products.categories.data.BaseCategoriesRepository
 import com.example.fakestore.products.categories.domain.CategoriesRepository
-import com.example.fakestore.products.categories.domain.LoadCategoriesResult
-import com.example.fakestore.products.categories.presentation.BaseLoadCategoriesResultMapper
+import com.example.fakestore.products.categories.presentation.BaseCategoriesLoadResultMapper
 import com.example.fakestore.products.categories.presentation.CategoriesCommunication
+import com.example.fakestore.products.categories.presentation.CategoriesLoadResultMapper
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
 
 @Module
@@ -16,7 +15,7 @@ import dagger.hilt.components.SingletonComponent
 abstract class CategoriesModule() {
 
     @Binds
-    abstract fun bindMapper(mapper: BaseLoadCategoriesResultMapper): LoadCategoriesResult.Mapper
+    abstract fun bindMapper(mapper: BaseCategoriesLoadResultMapper): CategoriesLoadResultMapper
 
     @Binds
     abstract fun bindCategoriesCommunication(communication: CategoriesCommunication.Base): CategoriesCommunication

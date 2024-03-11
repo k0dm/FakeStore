@@ -1,6 +1,5 @@
 package com.example.fakestore.main
 
-import android.util.Log
 import com.example.fakestore.core.LiveDataWrapper
 import com.example.fakestore.core.ProvideLiveData
 import com.example.fakestore.core.UiUpdate
