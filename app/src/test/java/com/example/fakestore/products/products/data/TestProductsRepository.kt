@@ -108,7 +108,7 @@ class ProductsRepositoryTest {
 
         val actualLoadResult = repository.products(category = "category 1")
         assertEquals(
-            LoadResult.Error<String>(handleError.handle(IllegalAccessException("Problems"))),
+            LoadResult.Error<String>("Problems"),
             actualLoadResult
         )
 

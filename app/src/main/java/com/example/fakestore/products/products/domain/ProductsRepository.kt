@@ -9,5 +9,4 @@ interface ProductsRepository {
     suspend fun changeAddedToCart(id: Int)
 
     suspend fun changeFavorite(id: Int)
-
 }
