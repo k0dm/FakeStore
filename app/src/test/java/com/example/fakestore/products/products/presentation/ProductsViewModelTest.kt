@@ -8,6 +8,7 @@ import com.example.fakestore.main.Screen
 import com.example.fakestore.products.products.domain.ProductItem
 import com.example.fakestore.products.products.domain.ProductsRepository
 import com.example.fakestore.products.products.presentation.adapter.ProductUi
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -36,6 +37,8 @@ class ProductsViewModelTest {
 
     @Test
     fun testInitLoadSuccess() {
+        repository.loadSuccess()
+
         viewModel.init(category = "category 1")
         communication.checkUiState(ProductsUiState.Progress)
 
@@ -139,8 +142,80 @@ class ProductsViewModelTest {
     fun testGoToProductDetailsAndBack() {
         viewModel.openDetails(productId = 1)
         navigation.checkScreen(ProductDetailsScreen(productId = 1))
+
         viewModel.goToCategories()
         navigation.checkScreen(Screen.Pop)
+    }
+
+    @Test
+    fun testChangeFavoriteAndAddedToCart() = runBlocking {
+        repository.loadSuccess()
+
+        repository.changeFavorite(1)
+        assertEquals(
+            LoadResult.Success(
+                items = mutableListOf(
+                    ProductItem.Base(
+                        id = 1,
+                        title = "product 1",
+                        price = 1.0,
+                        description = "this 1",
+                        category = "category 1",
+                        imageUrl = "url/image1",
+                        rate = 5.0,
+                        count = 4,
+                        favorite = true,
+                        addedToCart = false
+                    ),
+                    ProductItem.Base(
+                        id = 2,
+                        title = "product 2",
+                        price = 2.0,
+                        description = "this 2",
+                        category = "category 1",
+                        imageUrl = "url/image2",
+                        rate = 5.0,
+                        count = 4,
+                        favorite = false,
+                        addedToCart = false
+                    )
+                )
+            ),
+            repository.products("category 1")
+        )
+
+        repository.changeAddedToCart(2)
+        assertEquals(
+            LoadResult.Success(
+                items = mutableListOf(
+                    ProductItem.Base(
+                        id = 1,
+                        title = "product 1",
+                        price = 1.0,
+                        description = "this 1",
+                        category = "category 1",
+                        imageUrl = "url/image1",
+                        rate = 5.0,
+                        count = 4,
+                        favorite = true,
+                        addedToCart = false
+                    ),
+                    ProductItem.Base(
+                        id = 2,
+                        title = "product 2",
+                        price = 2.0,
+                        description = "this 2",
+                        category = "category 1",
+                        imageUrl = "url/image2",
+                        rate = 5.0,
+                        count = 4,
+                        favorite = false,
+                        addedToCart = true
+                    )
+                )
+            ),
+            repository.products("category 1")
+        )
     }
 }
 
@@ -163,36 +238,7 @@ private class FakeProductsCommunication : ProductsCommunication {
 
 private class FakeProductsRepository : ProductsRepository {
 
-    private var result: LoadResult<ProductItem> = LoadResult.Success<ProductItem>(
-        items = listOf(
-            ProductItem.Base(
-                id = 1,
-                title = "product 1",
-                price = 1.0,
-                description = "this 1",
-                category = "category 1",
-                imageUrl = "url/image1",
-                rate = 5.0,
-                count = 4,
-                favorite = false,
-                addedToCart = false
-            ),
-            ProductItem.Base(
-                id = 2,
-                title = "product 2",
-                price = 2.0,
-                description = "this 2",
-                category = "category 1",
-                imageUrl = "url/image2",
-                rate = 5.0,
-                count = 4,
-                favorite = false,
-                addedToCart = false
-            )
-        )
-    )
-
-    private var listProduct: List<ProductItem> = listOf(
+    private var listProduct: MutableList<ProductItem> = mutableListOf(
         ProductItem.Base(
             id = 1,
             title = "product 1",
@@ -219,35 +265,10 @@ private class FakeProductsRepository : ProductsRepository {
         )
     )
 
+    private lateinit var result: LoadResult<ProductItem>
+
     fun loadSuccess() {
-        result = LoadResult.Success(
-            items = listOf(
-                ProductItem.Base(
-                    id = 1,
-                    title = "product 1",
-                    price = 1.0,
-                    description = "this 1",
-                    category = "category 1",
-                    imageUrl = "url/image1",
-                    rate = 5.0,
-                    count = 4,
-                    favorite = false,
-                    addedToCart = false
-                ),
-                ProductItem.Base(
-                    id = 2,
-                    title = "product 2",
-                    price = 2.0,
-                    description = "this 2",
-                    category = "category 1",
-                    imageUrl = "url/image2",
-                    rate = 5.0,
-                    count = 4,
-                    favorite = false,
-                    addedToCart = false
-                )
-            )
-        )
+        result = LoadResult.Success(listProduct)
     }
 
     fun loadError() {
@@ -259,37 +280,62 @@ private class FakeProductsRepository : ProductsRepository {
     }
 
     override suspend fun changeAddedToCart(id: Int) {
-
+        if (id == 1) {
+            listProduct[0] = ProductItem.Base(
+                id = 1,
+                title = "product 1",
+                price = 1.0,
+                description = "this 1",
+                category = "category 1",
+                imageUrl = "url/image1",
+                rate = 5.0,
+                count = 4,
+                favorite = false,
+                addedToCart = true
+            )
+        } else {
+            listProduct[1] = ProductItem.Base(
+                id = 2,
+                title = "product 2",
+                price = 2.0,
+                description = "this 2",
+                category = "category 1",
+                imageUrl = "url/image2",
+                rate = 5.0,
+                count = 4,
+                favorite = false,
+                addedToCart = true
+            )
+        }
     }
 
     override suspend fun changeFavorite(id: Int) {
-        assertEquals(
-            listOf(
-                ProductItem.Base(
-                    id = 1,
-                    title = "product 1",
-                    price = 1.0,
-                    description = "this 1",
-                    category = "category 1",
-                    imageUrl = "url/image1",
-                    rate = 5.0,
-                    count = 4,
-                    favorite = true,
-                    addedToCart = false
-                ),
-                ProductItem.Base(
-                    id = 2,
-                    title = "product 1",
-                    price = 2.0,
-                    description = "this 2",
-                    category = "category 1",
-                    imageUrl = "url/image1",
-                    rate = 5.0,
-                    count = 4,
-                    favorite = false,
-                    addedToCart = false
-                )
-            ), listProduct
-        )
+        if (id == 1) {
+            listProduct[0] = ProductItem.Base(
+                id = 1,
+                title = "product 1",
+                price = 1.0,
+                description = "this 1",
+                category = "category 1",
+                imageUrl = "url/image1",
+                rate = 5.0,
+                count = 4,
+                favorite = true,
+                addedToCart = false
+            )
+        } else {
+            listProduct[1] = ProductItem.Base(
+                id = 2,
+                title = "product 2",
+                price = 2.0,
+                description = "this 2",
+                category = "category 1",
+                imageUrl = "url/image2",
+                rate = 5.0,
+                count = 4,
+                favorite = true,
+                addedToCart = false
+            )
+        }
     }
 }
