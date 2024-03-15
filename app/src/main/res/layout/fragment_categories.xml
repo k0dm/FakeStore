@@ -19,11 +19,15 @@
     <!--search view-->
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_gravity="center_horizontal"
         android:id="@+id/categoriesRecyclerView"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:layout_weight="1"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
         tools:listitem="@layout/viewholder_category" />
 </LinearLayout>

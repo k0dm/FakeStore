@@ -1,10 +1,10 @@
 package com.example.fakestore.products.products.presentation
 
-import androidx.lifecycle.LiveData
+import com.example.fakestore.core.presentation.LiveDataWrapper
+import javax.inject.Inject
 
-interface ProductsCommunication {
+interface ProductsCommunication : LiveDataWrapper<ProductsUiState> {
 
-    fun updateUi(value: ProductsUiState)
-
-    fun liveData(): LiveData<ProductsUiState>
+    class Base @Inject constructor() : ProductsCommunication,
+        LiveDataWrapper.Single<ProductsUiState>()
 }

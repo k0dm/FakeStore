@@ -1,8 +1,10 @@
 package com.example.fakestore.products.products.data.cache
 
+import javax.inject.Inject
+
 interface ProductsCacheDataSource {
 
-    suspend fun products(): List<ProductEntity>
+    suspend fun products(category: String): List<ProductEntity>
 
     suspend fun saveProducts(products: List<ProductEntity>)
 
@@ -10,9 +12,10 @@ interface ProductsCacheDataSource {
 
     suspend fun changeItemAddedToCart(id: Int)
 
-    class Base(private val dao: ProductsDao) : ProductsCacheDataSource {
+    class Base @Inject constructor(private val dao: ProductsDao) : ProductsCacheDataSource {
 
-        override suspend fun products(): List<ProductEntity> = dao.products()
+        override suspend fun products(category: String): List<ProductEntity> =
+            dao.products(category)
 
         override suspend fun saveProducts(products: List<ProductEntity>) {
             dao.saveProducts(products)

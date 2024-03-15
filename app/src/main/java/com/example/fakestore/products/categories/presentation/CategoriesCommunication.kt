@@ -1,6 +1,6 @@
 package com.example.fakestore.products.categories.presentation
 
-import com.example.fakestore.core.LiveDataWrapper
+import com.example.fakestore.core.presentation.LiveDataWrapper
 import javax.inject.Inject
 import javax.inject.Singleton
 

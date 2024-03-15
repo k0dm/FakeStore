@@ -6,8 +6,9 @@ import com.example.fakestore.products.products.data.cache.ProductsCacheDataSourc
 import com.example.fakestore.products.products.data.cloud.ProductsCloudDataSource
 import com.example.fakestore.products.products.domain.ProductItem
 import com.example.fakestore.products.products.domain.ProductsRepository
+import javax.inject.Inject
 
-class BaseProductsRepository(
+class BaseProductsRepository @Inject constructor(
     private val cloudDataSource: ProductsCloudDataSource,
     private val cacheDataSource: ProductsCacheDataSource,
     private val handleError: HandleError
@@ -15,7 +16,7 @@ class BaseProductsRepository(
 
     override suspend fun products(category: String): LoadResult<ProductItem> {
         return try {
-            val products = cacheDataSource.products().ifEmpty {
+            val products = cacheDataSource.products(category).ifEmpty {
                 val cloudProducts = cloudDataSource.loadProducts(category)
                 val productEntities = cloudProducts.map {
                     it.map(ToProductEntityMapper)

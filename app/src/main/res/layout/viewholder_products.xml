@@ -23,9 +23,10 @@
             android:layout_weight="2" />
 
         <ImageView
+            android:layout_width="132dp"
             android:id="@+id/imageProductImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="190dp"
+            android:visibility="visible"
             android:src="@drawable/image" />
 
         <LinearLayout
@@ -39,12 +40,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
-                android:src="@drawable/favorite" />
+                android:src="@drawable/favorite_empty" />
         </LinearLayout>
 
     </LinearLayout>
 
     <TextView
+        android:gravity="center"
+        android:maxLines="2"
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -168,7 +171,7 @@
             android:layout_height="wrap_content"
             android:background="@color/transparent"
             android:paddingHorizontal="6dp"
-            android:src="@drawable/shopping_bag_icon" />
+            android:src="@drawable/shopping_bag_icon_empty" />
 
     </LinearLayout>
 

@@ -2,7 +2,6 @@ package com.example.fakestore.di
 
 import com.example.fakestore.products.categories.data.cloud.CategoriesCloudDataSource
 import com.example.fakestore.products.categories.data.cloud.CategoryService
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,7 +10,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -26,8 +24,9 @@ object NetworkModule {
         .client(OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor()).build())
         .build()
 
-
     @Provides
     fun provideCategoriesCloudDataSource(retrofit: Retrofit): CategoriesCloudDataSource =
         CategoriesCloudDataSource.Base(retrofit.create(CategoryService::class.java))
+
+
 }

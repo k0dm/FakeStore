@@ -2,16 +2,13 @@ package com.example.fakestore.products.products.presentation
 
 import com.example.fakestore.core.domain.LoadResult
 import com.example.fakestore.products.products.domain.ProductItem
+import com.example.fakestore.products.products.presentation.adapter.ProductUi
 import javax.inject.Inject
-import javax.inject.Singleton
 
-interface ProductsLoadResultMapper : LoadResult.Mapper<ProductItem>
-
-@Singleton
 class BaseProductsLoadResultMapper @Inject constructor(
     private val communication: ProductsCommunication,
-    private val productItemToProductUiMapper: ProductItemToProductUiMapper
-) : ProductsLoadResultMapper {
+    private val productItemToProductUiMapper: ProductItem.Mapper<ProductUi>
+) : LoadResult.Mapper<ProductItem> {
 
     override fun mapSuccess(items: List<ProductItem>) {
         communication.updateUi(ProductsUiState.Success(items.map {

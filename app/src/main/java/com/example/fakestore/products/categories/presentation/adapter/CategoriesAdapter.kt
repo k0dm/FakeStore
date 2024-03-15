@@ -59,6 +59,9 @@ abstract class CategoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             binding.categoryTextView.setOnClickListener {
                 categoryUi.goToProducts(viewModel)
             }
+
+            binding
+
             categoryUi.showCategory(binding)
         }
     }
