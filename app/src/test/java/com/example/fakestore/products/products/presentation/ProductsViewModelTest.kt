@@ -134,14 +134,14 @@ class ProductsViewModelTest {
 
     @Test
     fun testGoToProductDetails() {
-        viewModel.openDetails(productId = 1)
-        navigation.checkScreen(ProductDetailsScreen(productId = 1))
+        viewModel.goToProductsDetails(id = 1, category = "category 1")
+        navigation.checkScreen(ProductDetailsScreen(productId = 1, category = "category 1"))
     }
 
     @Test
     fun testGoToProductDetailsAndBack() {
-        viewModel.openDetails(productId = 1)
-        navigation.checkScreen(ProductDetailsScreen(productId = 1))
+        viewModel.goToProductsDetails(id = 1, category = "category 1")
+        navigation.checkScreen(ProductDetailsScreen(productId = 1, category = "category 1"))
 
         viewModel.goToCategories()
         navigation.checkScreen(Screen.Pop)

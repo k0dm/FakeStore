@@ -8,8 +8,8 @@ import androidx.room.Query
 @Dao
 interface ProductsDao {
 
-    @Query("SELECT * FROM products")
-    suspend fun products(): List<ProductEntity>
+    @Query("SELECT * FROM products WHERE category = :category")
+    suspend fun products(category: String): List<ProductEntity>
 
     @Query("SELECT * FROM products WHERE id = :id")
     suspend fun product(id: Int): ProductEntity

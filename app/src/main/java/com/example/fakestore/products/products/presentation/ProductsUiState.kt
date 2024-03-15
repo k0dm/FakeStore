@@ -1,14 +1,31 @@
 package com.example.fakestore.products.products.presentation
 
 import com.example.fakestore.products.products.presentation.adapter.ProductUi
+import com.example.fakestore.products.products.presentation.adapter.ProductsAdapter
 
 interface ProductsUiState {
 
-    data class Error(private val message: String) : ProductsUiState
+    fun show(adapter: ProductsAdapter)
 
-    data class Success(private val products: List<ProductUi>) : ProductsUiState
+    data class Error(private val message: String) : ProductsUiState {
+        override fun show(adapter: ProductsAdapter) {
+            adapter.update(listOf(ProductUi.Error(message)))
+        }
+    }
 
-    object Progress : ProductsUiState
+    data class Success(private val products: List<ProductUi>) : ProductsUiState {
+        override fun show(adapter: ProductsAdapter) {
+            adapter.update(products)
+        }
+    }
 
-    object Empty : ProductsUiState
+    object Progress : ProductsUiState {
+        override fun show(adapter: ProductsAdapter) {
+            adapter.update(listOf(ProductUi.Progress))
+        }
+    }
+
+    object Empty : ProductsUiState {
+        override fun show(adapter: ProductsAdapter) = Unit
+    }
 }

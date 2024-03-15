@@ -5,17 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.fakestore.databinding.FragmentCategoriesBinding
 import com.example.fakestore.products.categories.presentation.adapter.CategoriesAdapter
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CategoriesFragment : Fragment() {
 
     private var _binding: FragmentCategoriesBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: CategoriesViewModel by activityViewModels()
+    private val viewModel: CategoriesViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

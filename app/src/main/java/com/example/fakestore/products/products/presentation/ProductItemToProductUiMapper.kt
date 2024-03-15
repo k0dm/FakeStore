@@ -2,8 +2,10 @@ package com.example.fakestore.products.products.presentation
 
 import com.example.fakestore.products.products.domain.ProductItem
 import com.example.fakestore.products.products.presentation.adapter.ProductUi
+import javax.inject.Inject
 
-class ProductItemToProductUiMapper : ProductItem.Mapper<ProductUi> {
+class ProductItemToProductUiMapper @Inject constructor() : ProductItem.Mapper<ProductUi> {
+
     override fun map(
         id: Int,
         title: String,
@@ -16,17 +18,15 @@ class ProductItemToProductUiMapper : ProductItem.Mapper<ProductUi> {
         favorite: Boolean,
         addedToCart: Boolean
     ): ProductUi = ProductUi.Base(
-        id,
-        title,
-        price,
-        description,
-        category,
-        imageUrl,
-        rate,
-        count,
-        favorite,
-        addedToCart
+        id = id,
+        title = title,
+        price = price,
+        description = description,
+        category = category,
+        imageUrl = imageUrl,
+        rate = rate,
+        count = count,
+        favorite = favorite,
+        addedToCart = addedToCart
     )
-
-
 }
