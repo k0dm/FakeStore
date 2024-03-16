@@ -3,11 +3,11 @@ package com.example.fakestore.products.products.presentation
 import androidx.lifecycle.LiveData
 import com.example.fakestore.core.FakeNavigation
 import com.example.fakestore.core.FakeRunAsync
+import com.example.fakestore.core.UiUpdate
 import com.example.fakestore.core.domain.LoadResult
 import com.example.fakestore.main.Screen
 import com.example.fakestore.products.products.domain.ProductItem
 import com.example.fakestore.products.products.domain.ProductsRepository
-import com.example.fakestore.products.products.presentation.adapter.ProductUi
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -18,20 +18,26 @@ class ProductsViewModelTest {
     private lateinit var viewModel: ProductsViewModel
     private lateinit var navigation: FakeNavigation
     private lateinit var communication: FakeProductsCommunication
+    private lateinit var cartBadgeLiveDataWrapper: FakeCartBadgeLiveDataWrapper
     private lateinit var repository: FakeProductsRepository
     private lateinit var runAsync: FakeRunAsync
+    private lateinit var mapper: FakeMapper
 
     @Before
     fun setUp() {
         navigation = FakeNavigation.Base()
         communication = FakeProductsCommunication()
         repository = FakeProductsRepository()
+        cartBadgeLiveDataWrapper = FakeCartBadgeLiveDataWrapper()
+        mapper = FakeMapper()
         runAsync = FakeRunAsync()
         viewModel = ProductsViewModel(
             navigation = navigation,
             communication = communication,
+            cartBadgeLiveData = cartBadgeLiveDataWrapper,
             repository = repository,
-            runAsync = runAsync
+            mapper = mapper,
+            runAsync = runAsync,
         )
     }
 
@@ -43,10 +49,9 @@ class ProductsViewModelTest {
         communication.checkUiState(ProductsUiState.Progress)
 
         runAsync.pingResult()
-        communication.checkUiState(
-            ProductsUiState.Success(
-                products = listOf(
-                    ProductUi.Base(
+        mapper.checkMappedSuccess(
+            expectedItems = listOf(
+                ProductItem.Base(
                         id = 1,
                         title = "product 1",
                         price = 1.0,
@@ -58,7 +63,7 @@ class ProductsViewModelTest {
                         favorite = false,
                         addedToCart = false
                     ),
-                    ProductUi.Base(
+                ProductItem.Base(
                         id = 2,
                         title = "product 2",
                         price = 2.0,
@@ -70,7 +75,6 @@ class ProductsViewModelTest {
                         favorite = false,
                         addedToCart = false
                     ),
-                )
             )
         )
     }
@@ -83,7 +87,7 @@ class ProductsViewModelTest {
         communication.checkUiState(ProductsUiState.Progress)
 
         runAsync.pingResult()
-        communication.checkUiState(ProductsUiState.Error(message = "Problems"))
+        mapper.checkMappedError(expectedMessage = "Problems")
     }
 
     @Test
@@ -94,16 +98,15 @@ class ProductsViewModelTest {
         communication.checkUiState(ProductsUiState.Progress)
 
         runAsync.pingResult()
-        communication.checkUiState(ProductsUiState.Error(message = "Problems"))
+        mapper.checkMappedError(expectedMessage = "Problems")
 
         repository.loadSuccess()
 
         viewModel.retry(category = "category 1")
         runAsync.pingResult()
-        communication.checkUiState(
-            ProductsUiState.Success(
-                products = listOf(
-                    ProductUi.Base(
+        mapper.checkMappedSuccess(
+            expectedItems = listOf(
+                ProductItem.Base(
                         id = 1,
                         title = "product 1",
                         price = 1.0,
@@ -115,7 +118,7 @@ class ProductsViewModelTest {
                         favorite = false,
                         addedToCart = false
                     ),
-                    ProductUi.Base(
+                ProductItem.Base(
                         id = 2,
                         title = "product 2",
                         price = 2.0,
@@ -127,7 +130,6 @@ class ProductsViewModelTest {
                         favorite = false,
                         addedToCart = false
                     ),
-                )
             )
         )
     }
@@ -184,7 +186,7 @@ class ProductsViewModelTest {
             repository.products("category 1")
         )
 
-        repository.changeAddedToCart(2)
+        val size = repository.changeAddedToCart(2)
         assertEquals(
             LoadResult.Success(
                 items = mutableListOf(
@@ -216,6 +218,7 @@ class ProductsViewModelTest {
             ),
             repository.products("category 1")
         )
+        assertEquals(1, size)
     }
 }
 
@@ -279,7 +282,9 @@ private class FakeProductsRepository : ProductsRepository {
         return result
     }
 
-    override suspend fun changeAddedToCart(id: Int) {
+    var sizeCart = 0
+
+    override suspend fun changeAddedToCart(id: Int): Int {
         if (id == 1) {
             listProduct[0] = ProductItem.Base(
                 id = 1,
@@ -307,6 +312,7 @@ private class FakeProductsRepository : ProductsRepository {
                 addedToCart = true
             )
         }
+        return ++sizeCart
     }
 
     override suspend fun changeFavorite(id: Int) {
@@ -338,4 +344,36 @@ private class FakeProductsRepository : ProductsRepository {
             )
         }
     }
+}
+
+private class FakeMapper() : LoadResult.Mapper<ProductItem> {
+
+    private var actualItems = emptyList<ProductItem>()
+
+    private var actualMessage = ""
+
+
+    override fun mapSuccess(items: List<ProductItem>) {
+        actualItems = items
+    }
+
+    fun checkMappedSuccess(expectedItems: List<ProductItem>) =
+        assertEquals(expectedItems, actualItems)
+
+    override fun mapError(message: String) {
+        actualMessage = message
+    }
+
+    fun checkMappedError(expectedMessage: String) = assertEquals(actualMessage, expectedMessage)
+}
+
+private class FakeCartBadgeLiveDataWrapper() : UiUpdate<Int> {
+
+    private var actualValue = -1
+
+    override fun updateUi(value: Int) {
+        actualValue = value
+    }
+
+    fun checkUpdatedValue(expectedValue: Int) = assertEquals(expectedValue, actualValue)
 }

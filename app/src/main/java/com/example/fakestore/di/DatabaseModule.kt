@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.fakestore.core.data.FakeStoreDatabase
 import com.example.fakestore.products.categories.data.cache.CategoriesCacheDataSource
-import com.example.fakestore.products.products.data.cache.ProductsCacheDataSource
+import com.example.fakestore.products.products.data.cache.ProductsDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,6 +30,5 @@ object DatabaseModule {
         CategoriesCacheDataSource.Base(database.categoriesDao())
 
     @Provides
-    fun provideProductsCacheDataSource(database: FakeStoreDatabase): ProductsCacheDataSource =
-        ProductsCacheDataSource.Base(database.productsDao())
+    fun provideProductsDao(database: FakeStoreDatabase): ProductsDao = database.productsDao()
 }

@@ -1,6 +1,7 @@
 package com.example.fakestore.core
 
 import androidx.lifecycle.ViewModel
+import com.example.fakestore.core.presentation.RunAsync
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

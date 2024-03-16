@@ -6,7 +6,7 @@ interface ProductsRepository {
 
     suspend fun products(category: String): LoadResult<ProductItem>
 
-    suspend fun changeAddedToCart(id: Int)
+    suspend fun changeAddedToCart(id: Int): Int
 
     suspend fun changeFavorite(id: Int)
 }

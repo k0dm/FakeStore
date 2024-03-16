@@ -2,14 +2,14 @@ package com.example.fakestore.products.products.presentation
 
 import com.example.fakestore.core.BaseViewModel
 import com.example.fakestore.core.ProvideLiveData
-import com.example.fakestore.core.RunAsync
+import com.example.fakestore.core.UiUpdate
 import com.example.fakestore.core.domain.LoadResult
+import com.example.fakestore.core.presentation.RunAsync
 import com.example.fakestore.main.Navigation
 import com.example.fakestore.main.Screen
 import com.example.fakestore.products.products.domain.ProductItem
 import com.example.fakestore.products.products.domain.ProductsRepository
 import com.example.fakestore.products.products.presentation.adapter.ProductAndRetryClickActions
-import com.example.fakestore.products.products.presentation.adapter.ProductUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -17,12 +17,9 @@ import javax.inject.Inject
 class ProductsViewModel @Inject constructor(
     private val navigation: Navigation.Navigate,
     private val communication: ProductsCommunication,
+    private val cartBadgeLiveData: UiUpdate<Int>,
     private val repository: ProductsRepository,
-    itemUiMapper: ProductItem.Mapper<ProductUi> = ProductItemToProductUiMapper(),
-    private val mapper: LoadResult.Mapper<ProductItem> = BaseProductsLoadResultMapper(
-        communication,
-        itemUiMapper
-    ),
+    private val mapper: LoadResult.Mapper<ProductItem>,
     runAsync: RunAsync,
 ) : BaseViewModel(runAsync), ProductAndRetryClickActions, ProvideLiveData<ProductsUiState> {
 
@@ -48,15 +45,16 @@ class ProductsViewModel @Inject constructor(
     override fun changeAddedToCart(id: Int) {
         runAsync({
             repository.changeAddedToCart(id)
-        }) {
-
+        }) { number ->
+            cartBadgeLiveData.updateUi(number)
         }
     }
 
     override fun changeAddedToFavorites(id: Int) {
         runAsync({
             repository.changeFavorite(id)
-        }) {}
+        }) {
+        }
     }
 
     fun goToCategories() {

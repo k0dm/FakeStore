@@ -1,5 +1,6 @@
 package com.example.fakestore.products.products.data.cache
 
+import com.example.fakestore.main.CartBadgeStorage
 import javax.inject.Inject
 
 interface ProductsCacheDataSource {
@@ -10,9 +11,12 @@ interface ProductsCacheDataSource {
 
     suspend fun changeItemFavorite(id: Int)
 
-    suspend fun changeItemAddedToCart(id: Int)
+    suspend fun changeItemAddedToCart(id: Int): Int
 
-    class Base @Inject constructor(private val dao: ProductsDao) : ProductsCacheDataSource {
+    class Base @Inject constructor(
+        private val dao: ProductsDao,
+        private val cartBadgeStorage: CartBadgeStorage.Save
+    ) : ProductsCacheDataSource {
 
         override suspend fun products(category: String): List<ProductEntity> =
             dao.products(category)
@@ -27,10 +31,13 @@ interface ProductsCacheDataSource {
             dao.saveProducts(listOf(newProducts))
         }
 
-        override suspend fun changeItemAddedToCart(id: Int) {
+        override suspend fun changeItemAddedToCart(id: Int): Int {
             val productEntity: ProductEntity = dao.product(id)
             val newProducts = productEntity.copy(addedToCart = !productEntity.addedToCart)
             dao.saveProducts(listOf(newProducts))
+            val number = dao.addedToCartProducts().size
+            cartBadgeStorage.save(number)
+            return number
         }
     }
 }
