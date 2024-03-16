@@ -43,12 +43,10 @@ class BaseProductsRepository @Inject constructor(
         }
     }
 
-    override suspend fun changeAddedToCart(id: Int) {
-        cacheDataSource.changeItemAddedToCart(id)
-    }
+    override suspend fun changeAddedToCart(id: Int): Int = cacheDataSource.changeItemAddedToCart(id)
 
-    override suspend fun changeFavorite(id: Int) {
-        cacheDataSource.changeItemFavorite(id)
-    }
+
+    override suspend fun changeFavorite(id: Int) = cacheDataSource.changeItemFavorite(id)
+
 
 }

@@ -1,4 +1,4 @@
-package com.example.fakestore.core
+package com.example.fakestore.core.presentation
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

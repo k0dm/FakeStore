@@ -2,7 +2,7 @@ package com.example.fakestore.products.categories.presentation
 
 import com.example.fakestore.core.BaseViewModel
 import com.example.fakestore.core.ProvideLiveData
-import com.example.fakestore.core.RunAsync
+import com.example.fakestore.core.presentation.RunAsync
 import com.example.fakestore.main.Navigation
 import com.example.fakestore.products.categories.domain.CategoriesRepository
 import com.example.fakestore.products.categories.presentation.adapter.CategoryAndRetryClickActions

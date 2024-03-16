@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.fakestore.R
 import com.example.fakestore.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -41,10 +40,23 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
-        viewModel.init(isFirstRun = savedInstanceState == null)
+
+        val cartBadge = binding.bottomNavigation.getOrCreateBadge(R.id.itemCart)
+
+        viewModel.cartBadgeLiveData().observe(this) {
+            if (it == 0) {
+                cartBadge.isVisible = false
+            } else {
+                cartBadge.number = it
+                cartBadge.isVisible = true
+            }
+        }
 
         viewModel.liveData().observe(this) {
             it.show(binding.container.id, supportFragmentManager)
         }
+
+        viewModel.init(isFirstRun = savedInstanceState == null)
     }
 }
+

@@ -1,7 +1,11 @@
 package com.example.fakestore.di
 
+import com.example.fakestore.core.UiUpdate
 import com.example.fakestore.core.domain.LoadResult
+import com.example.fakestore.main.CartBadgeLiveDataWrapper
+import com.example.fakestore.main.CartBadgeStorage
 import com.example.fakestore.products.products.data.BaseProductsRepository
+import com.example.fakestore.products.products.data.cache.ProductsCacheDataSource
 import com.example.fakestore.products.products.data.cloud.ProductsCloudDataSource
 import com.example.fakestore.products.products.data.cloud.ProductsService
 import com.example.fakestore.products.products.domain.ProductItem
@@ -37,6 +41,18 @@ abstract class ProductsModule {
     @Binds
     @ViewModelScoped
     abstract fun bindResultMapper(mapper: BaseProductsLoadResultMapper): LoadResult.Mapper<ProductItem>
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindLiveData(liveData: CartBadgeLiveDataWrapper): UiUpdate<Int>
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindCartBadgeStorageSave(storage: CartBadgeStorage.Base): CartBadgeStorage.Save
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindCacheDataSource(cacheDataSource: ProductsCacheDataSource.Base): ProductsCacheDataSource
 
     companion object {
 

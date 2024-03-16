@@ -1,5 +1,6 @@
 package com.example.fakestore.core
 
+import com.example.fakestore.core.presentation.RunAsync
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
 

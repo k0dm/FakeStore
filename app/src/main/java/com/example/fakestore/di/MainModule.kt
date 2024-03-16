@@ -1,5 +1,7 @@
 package com.example.fakestore.di
 
+import com.example.fakestore.main.CartBadgeLiveDataWrapper
+import com.example.fakestore.main.CartBadgeStorage
 import com.example.fakestore.main.Navigation
 import dagger.Binds
 import dagger.Module
@@ -15,5 +17,12 @@ abstract class MainModule {
 
     @Binds
     abstract fun bindsNavigationMutable(navigation: Navigation.Base): Navigation.Mutable
+
+    @Binds
+    abstract fun bindsLiveData(liveData: CartBadgeLiveDataWrapper.Base): CartBadgeLiveDataWrapper
+
+    @Binds
+    abstract fun bindCartBadgeStorageRead(storage: CartBadgeStorage.Base): CartBadgeStorage.Read
+
 }
 
