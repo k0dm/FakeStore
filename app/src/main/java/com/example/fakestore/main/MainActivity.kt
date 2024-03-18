@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
                 cartBadge.isVisible = false
             } else {
                 cartBadge.number = it
+
                 cartBadge.isVisible = true
             }
         }

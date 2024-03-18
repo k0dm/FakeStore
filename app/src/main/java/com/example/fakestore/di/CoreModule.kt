@@ -1,7 +1,7 @@
 package com.example.fakestore.di
 
+import com.example.fakestore.content.categories.data.HandleError
 import com.example.fakestore.core.presentation.RunAsync
-import com.example.fakestore.products.categories.data.HandleError
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

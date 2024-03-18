@@ -2,7 +2,7 @@ package com.example.fakestore.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.fakestore.products.categories.presentation.CategoryScreen
+import com.example.fakestore.content.categories.presentation.CategoryScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

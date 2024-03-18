@@ -1,7 +1,7 @@
 package com.example.fakestore.di
 
-import com.example.fakestore.products.categories.data.cloud.CategoriesCloudDataSource
-import com.example.fakestore.products.categories.data.cloud.CategoryService
+import com.example.fakestore.content.categories.data.cloud.CategoriesCloudDataSource
+import com.example.fakestore.content.categories.data.cloud.CategoryService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

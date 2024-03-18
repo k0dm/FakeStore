@@ -1,9 +1,9 @@
 package com.example.fakestore.main
 
 import androidx.lifecycle.LiveData
+import com.example.fakestore.content.categories.presentation.CategoryScreen
 import com.example.fakestore.core.FakeNavigation
 import com.example.fakestore.core.presentation.LiveDataWrapper
-import com.example.fakestore.products.categories.presentation.CategoryScreen
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -49,7 +49,7 @@ class MainViewModelTest {
 }
 
 
-class FakeCartBadgeLiveDataWrapper() : CartBadgeLiveDataWrapper, LiveDataWrapper<Int> {
+internal class FakeCartBadgeLiveDataWrapper() : CartBadgeLiveDataWrapper, LiveDataWrapper<Int> {
 
     private var number: Int = -1
 
