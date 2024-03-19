@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.liveData().observe(this) {
+        viewModel.navigationLiveData().observe(this) {
             it.show(binding.container.id, supportFragmentManager)
         }
 

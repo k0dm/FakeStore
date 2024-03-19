@@ -2,6 +2,7 @@ package com.example.fakestore.content.details.presentation
 
 import com.example.fakestore.content.details.domain.ProductsDetailsRepository
 import com.example.fakestore.content.products.domain.ProductItem
+import com.example.fakestore.content.products.presentation.ProductPositionLiveDataWrapper
 import com.example.fakestore.core.BaseViewModel
 import com.example.fakestore.core.presentation.RunAsync
 import com.example.fakestore.main.CartBadgeLiveDataWrapper
@@ -14,13 +15,14 @@ import javax.inject.Inject
 class ProductDetailsViewModel @Inject constructor(
     private val navigation: Navigation.Navigate,
     private val communication: ProductDetailsCommunication,
-    private val cartBadgeLiveDataWrapper: CartBadgeLiveDataWrapper,
+    private val cartBadgeLiveDataWrapper: CartBadgeLiveDataWrapper.Update,
+    private val productPositionLiveDataWrapper: ProductPositionLiveDataWrapper.Update,
     private val repository: ProductsDetailsRepository,
     private val mapper: ProductItem.Mapper<ProductsDetailsUiModel>,
     runAsync: RunAsync
 ) : BaseViewModel(runAsync) {
 
-    fun liveData() = communication.liveData()
+    fun navigationLiveData() = communication.liveData()
 
     fun init(id: Int) {
         runAsync({
@@ -30,7 +32,8 @@ class ProductDetailsViewModel @Inject constructor(
         })
     }
 
-    fun goToProducts() {
+    fun goToProducts(id: Int) {
+        productPositionLiveDataWrapper.updateUi(id)
         navigation.updateUi(Screen.Pop)
     }
 

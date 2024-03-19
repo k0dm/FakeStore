@@ -6,6 +6,7 @@ import com.example.fakestore.content.details.presentation.ProductDetailsCommunic
 import com.example.fakestore.content.details.presentation.ProductsDetailsUiModel
 import com.example.fakestore.content.details.presentation.ToProductsDetailsUiModelMapper
 import com.example.fakestore.content.products.domain.ProductItem
+import com.example.fakestore.content.products.presentation.ProductPositionLiveDataWrapper
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -19,6 +20,10 @@ abstract class ProductsDetailModule {
     @Binds
     @ViewModelScoped
     abstract fun bindCommunication(communication: ProductDetailsCommunication.Base): ProductDetailsCommunication
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindProductPositionLiveData(liveData: ProductPositionLiveDataWrapper.Mutable): ProductPositionLiveDataWrapper.Update
 
     @Binds
     @ViewModelScoped

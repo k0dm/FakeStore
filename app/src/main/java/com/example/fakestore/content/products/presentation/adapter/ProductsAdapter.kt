@@ -36,6 +36,10 @@ class ProductsAdapter(
 
     override fun getItemCount(): Int = products.size
 
+
+    fun notifyById(id: Int) {
+        notifyItemChanged(products.indexOf(products.find { it.isTheSameId(id) }!!))
+    }
 }
 
 abstract class ProductViewHolder(view: View) : RecyclerView.ViewHolder(view) {

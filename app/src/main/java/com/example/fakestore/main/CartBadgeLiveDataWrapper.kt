@@ -1,9 +1,17 @@
 package com.example.fakestore.main
 
+import com.example.fakestore.core.ProvideLiveData
+import com.example.fakestore.core.UiUpdate
 import com.example.fakestore.core.presentation.LiveDataWrapper
 import javax.inject.Inject
 
-interface CartBadgeLiveDataWrapper : LiveDataWrapper<Int> {
+interface CartBadgeLiveDataWrapper {
 
-    class Base @Inject constructor() : CartBadgeLiveDataWrapper, LiveDataWrapper.Single<Int>()
+    interface Update : UiUpdate<Int>
+
+    interface Provide : ProvideLiveData<Int>
+
+    interface Mutable : Update, Provide
+
+    class Base @Inject constructor() : Mutable, LiveDataWrapper.Single<Int>()
 }

@@ -21,6 +21,8 @@ interface ProductUi {
 
     fun changeFavorite(viewModel: ProductAndRetryClickActions) = Unit
 
+    fun isTheSameId(id: Int): Boolean = false
+
     data class Base(
         private val id: Int,
         private var title: String,
@@ -114,6 +116,8 @@ interface ProductUi {
             )
 
         }
+
+        override fun isTheSameId(id: Int) = this.id == id
     }
 
     object Progress : ProductUi {

@@ -5,7 +5,7 @@ import com.example.fakestore.main.Screen
 
 data class ProductDetailsScreen(
     private val productId: Int,
-) : Screen.Replace(ProductDetailsFragment::class.java) {
+) : Screen.Add(ProductDetailsFragment::class.java) {
 
     override fun fragment(): Fragment {
         return ProductDetailsFragment.newInstance(productId)

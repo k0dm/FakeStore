@@ -25,7 +25,6 @@ interface Screen {
     abstract class Add(private val clasz: Class<out Fragment>) : Screen {
         override fun show(containerId: Int, supportFragmentManager: FragmentManager) {
             supportFragmentManager.beginTransaction()
-                .setReorderingAllowed(true)
                 .add(containerId, fragment())
                 .addToBackStack(clasz.simpleName)
                 .commit()

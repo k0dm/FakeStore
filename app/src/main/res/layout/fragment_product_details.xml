@@ -15,7 +15,7 @@
         android:gravity="center">
 
         <ImageButton
-            android:id="@+id/backToCategoriesImageButton"
+            android:id="@+id/backToProductsImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"

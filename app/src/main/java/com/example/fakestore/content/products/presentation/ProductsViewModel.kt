@@ -6,9 +6,9 @@ import com.example.fakestore.content.products.domain.ProductsRepository
 import com.example.fakestore.content.products.presentation.adapter.ProductAndRetryClickActions
 import com.example.fakestore.core.BaseViewModel
 import com.example.fakestore.core.ProvideLiveData
-import com.example.fakestore.core.UiUpdate
 import com.example.fakestore.core.domain.LoadResult
 import com.example.fakestore.core.presentation.RunAsync
+import com.example.fakestore.main.CartBadgeLiveDataWrapper
 import com.example.fakestore.main.Navigation
 import com.example.fakestore.main.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +18,8 @@ import javax.inject.Inject
 class ProductsViewModel @Inject constructor(
     private val navigation: Navigation.Navigate,
     private val communication: ProductsCommunication,
-    private val cartBadgeLiveData: UiUpdate<Int>,
+    private val cartBadgeLiveData: CartBadgeLiveDataWrapper.Update,
+    private val productPositionLiveDataWrapper: ProductPositionLiveDataWrapper.Provide,
     private val repository: ProductsRepository,
     private val mapper: LoadResult.Mapper<ProductItem>,
     runAsync: RunAsync,
@@ -34,6 +35,8 @@ class ProductsViewModel @Inject constructor(
             result.map(mapper)
         })
     }
+
+    fun productPositionLiveData() = productPositionLiveDataWrapper.liveData()
 
     override fun retry(category: String) {
         init(category)
@@ -60,5 +63,4 @@ class ProductsViewModel @Inject constructor(
     fun goToCategories() {
         navigation.updateUi(Screen.Pop)
     }
-
 }

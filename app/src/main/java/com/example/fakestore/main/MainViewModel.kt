@@ -9,11 +9,11 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val navigation: Navigation.Mutable,
-    private val cartBadgeLiveDataWrapper: CartBadgeLiveDataWrapper,
+    private val cartBadgeLiveDataWrapper: CartBadgeLiveDataWrapper.Mutable,
     private val cartBadgeStorage: CartBadgeStorage.Read
-) : ViewModel(), Navigation.Read {
+) : ViewModel() {
 
-    override fun liveData(): LiveData<Screen> = navigation.liveData()
+    fun navigationLiveData(): LiveData<Screen> = navigation.liveData()
 
     fun cartBadgeLiveData(): LiveData<Int> = cartBadgeLiveDataWrapper.liveData()
 

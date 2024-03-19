@@ -1,5 +1,6 @@
 package com.example.fakestore.di
 
+import com.example.fakestore.content.products.presentation.ProductPositionLiveDataWrapper
 import com.example.fakestore.main.CartBadgeLiveDataWrapper
 import com.example.fakestore.main.CartBadgeStorage
 import com.example.fakestore.main.Navigation
@@ -21,8 +22,12 @@ abstract class MainModule {
 
     @Binds
     @Singleton
-    abstract fun bindsLiveData(liveData: CartBadgeLiveDataWrapper.Base): CartBadgeLiveDataWrapper
+    abstract fun bindsLiveData(liveData: CartBadgeLiveDataWrapper.Base): CartBadgeLiveDataWrapper.Mutable
 
     @Binds
     abstract fun bindCartBadgeStorageRead(storage: CartBadgeStorage.Base): CartBadgeStorage.Read
+
+    @Binds
+    @Singleton
+    abstract fun provideProductPositionLiveData(liveData: ProductPositionLiveDataWrapper.Base): ProductPositionLiveDataWrapper.Mutable
 }

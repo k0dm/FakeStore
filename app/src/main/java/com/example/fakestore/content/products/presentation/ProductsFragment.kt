@@ -27,6 +27,7 @@ class ProductsFragment : Fragment() {
     private val binding: FragmentProductsBinding
         get() = _binding!!
     private val viewModel: ProductsViewModel by viewModels()
+    private lateinit var category: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,16 +40,21 @@ class ProductsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val category = requireArguments().getString(KEY_CATEGORY)!!
         val adapter = ProductsAdapter(viewModel = viewModel)
-        binding.productsRecyclerView.adapter = adapter //Todo make adapter
+
+        category = requireArguments().getString(KEY_CATEGORY)!!
+        binding.productsRecyclerView.adapter = adapter
         binding.categoryTextView.text = category
         binding.backToCategoriesImageButton.setOnClickListener {
             viewModel.goToCategories()
         }
 
-        viewModel.liveData().observe(requireActivity()) {
+        viewModel.liveData().observe(viewLifecycleOwner) {
             it.show(adapter = adapter)
+        }
+
+        viewModel.productPositionLiveData().observe(viewLifecycleOwner) {
+            adapter.notifyById(it)
         }
 
         viewModel.init(category)
@@ -58,5 +64,4 @@ class ProductsFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

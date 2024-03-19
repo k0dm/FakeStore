@@ -8,9 +8,10 @@ import com.example.fakestore.content.products.domain.ProductItem
 import com.example.fakestore.content.products.domain.ProductsRepository
 import com.example.fakestore.content.products.presentation.BaseProductsLoadResultMapper
 import com.example.fakestore.content.products.presentation.ProductItemToProductUiMapper
+import com.example.fakestore.content.products.presentation.ProductPositionLiveDataWrapper
 import com.example.fakestore.content.products.presentation.ProductsCommunication
 import com.example.fakestore.content.products.presentation.adapter.ProductUi
-import com.example.fakestore.core.UiUpdate
+import com.example.fakestore.core.ProvideLiveData
 import com.example.fakestore.core.domain.LoadResult
 import com.example.fakestore.main.CartBadgeLiveDataWrapper
 import com.example.fakestore.main.CartBadgeStorage
@@ -44,11 +45,20 @@ abstract class ProductsModule {
 
     @Binds
     @ViewModelScoped
-    abstract fun bindLiveData(liveData: CartBadgeLiveDataWrapper): UiUpdate<Int>
+    abstract fun bindCartBadgeLiveData(liveData: CartBadgeLiveDataWrapper.Mutable): CartBadgeLiveDataWrapper.Update
+
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindProductPositionLiveData(liveData: ProductPositionLiveDataWrapper.Mutable): ProductPositionLiveDataWrapper.Provide
 
     @Binds
     @ViewModelScoped
     abstract fun bindCartBadgeStorageSave(storage: CartBadgeStorage.Base): CartBadgeStorage.Save
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindProductPositionLiveDataWrapper(liveDataWrapper: ProvideLiveData<Int>): ProvideLiveData<Int>
 
     @Binds
     @ViewModelScoped
@@ -60,5 +70,6 @@ abstract class ProductsModule {
         @ViewModelScoped
         fun provideProductsCloudDataSource(retrofit: Retrofit): ProductsCloudDataSource =
             ProductsCloudDataSource.Base(retrofit.create(ProductsService::class.java))
+
     }
 }

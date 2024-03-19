@@ -35,18 +35,31 @@ class ProductDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentProductDetailsBinding.inflate(inflater, container, false)
-        return super.onCreateView(inflater, container, savedInstanceState)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val id = requireArguments().getInt(KEY_ID)!!
+        val id = requireArguments().getInt(KEY_ID)
+
+        binding.backToProductsImageButton.setOnClickListener {
+            viewModel.goToProducts(id)
+        }
+
+        binding.addedToFavoriteButton.setOnClickListener {
+            viewModel.changeFavorite(id)
+        }
+
+        binding.actionButton.setOnClickListener {
+            viewModel.changeAddedToCart(id)
+        }
+
+        viewModel.navigationLiveData().observe(viewLifecycleOwner) {
+            it.show(binding)
+        }
 
         viewModel.init(id)
 
-        viewModel.liveData().observe(viewLifecycleOwner) {
-            it.show(binding)
-        }
     }
 
     override fun onDestroyView() {
