@@ -42,10 +42,13 @@ class ProductDetailsViewModel @Inject constructor(
             repository.changeAddedToCart(id)
         }) { number ->
             cartBadgeLiveDataWrapper.updateUi(number)
+            init(id)
         }
     }
 
     fun changeFavorite(id: Int) = runAsync({
         repository.changeFavorite(id)
-    }, {})
+    }, {
+        init(id)
+    })
 }

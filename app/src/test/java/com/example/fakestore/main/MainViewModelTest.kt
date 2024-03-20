@@ -49,7 +49,8 @@ class MainViewModelTest {
 }
 
 
-internal class FakeCartBadgeLiveDataWrapper() : CartBadgeLiveDataWrapper, LiveDataWrapper<Int> {
+internal class FakeCartBadgeLiveDataWrapper() : CartBadgeLiveDataWrapper.Mutable,
+    LiveDataWrapper<Int> {
 
     private var number: Int = -1
 

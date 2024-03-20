@@ -7,12 +7,13 @@ import com.example.fakestore.content.products.data.cloud.ProductsService
 import com.example.fakestore.content.products.domain.ProductItem
 import com.example.fakestore.content.products.domain.ProductsRepository
 import com.example.fakestore.content.products.presentation.BaseProductsLoadResultMapper
+import com.example.fakestore.content.products.presentation.ProductCommunication
 import com.example.fakestore.content.products.presentation.ProductItemToProductUiMapper
 import com.example.fakestore.content.products.presentation.ProductPositionLiveDataWrapper
 import com.example.fakestore.content.products.presentation.ProductsCommunication
 import com.example.fakestore.content.products.presentation.adapter.ProductUi
-import com.example.fakestore.core.ProvideLiveData
 import com.example.fakestore.core.domain.LoadResult
+import com.example.fakestore.core.presentation.ProvideLiveData
 import com.example.fakestore.main.CartBadgeLiveDataWrapper
 import com.example.fakestore.main.CartBadgeStorage
 import dagger.Binds
@@ -30,6 +31,10 @@ abstract class ProductsModule {
     @Binds
     @ViewModelScoped
     abstract fun bindCommunication(communication: ProductsCommunication.Base): ProductsCommunication
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindProductUiCommunication(communication: ProductCommunication.Base): ProductCommunication
 
     @Binds
     @ViewModelScoped

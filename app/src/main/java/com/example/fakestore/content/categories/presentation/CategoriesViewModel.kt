@@ -4,7 +4,7 @@ import com.example.fakestore.content.categories.domain.CategoriesRepository
 import com.example.fakestore.content.categories.presentation.adapter.CategoryAndRetryClickActions
 import com.example.fakestore.content.products.presentation.ProductsScreen
 import com.example.fakestore.core.BaseViewModel
-import com.example.fakestore.core.ProvideLiveData
+import com.example.fakestore.core.presentation.ProvideLiveData
 import com.example.fakestore.core.presentation.RunAsync
 import com.example.fakestore.main.Navigation
 import dagger.hilt.android.lifecycle.HiltViewModel

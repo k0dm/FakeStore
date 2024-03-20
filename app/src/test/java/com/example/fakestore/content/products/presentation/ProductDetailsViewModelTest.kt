@@ -1,6 +1,7 @@
 package com.example.fakestore.content.products.presentation
 
 
+import androidx.lifecycle.LiveData
 import com.example.fakestore.content.details.domain.ProductsDetailsRepository
 import com.example.fakestore.content.details.presentation.ProductDetailsCommunication
 import com.example.fakestore.content.details.presentation.ProductDetailsViewModel
@@ -21,6 +22,7 @@ class ProductDetailsViewModelTest {
     private lateinit var communication: FakeProductsDetailsCommunication
     private lateinit var repository: FakeProductsDetailsRepository
     private lateinit var cartBadgeLiveDataWrapper: FakeCartBadgeLiveDataWrapper
+    private lateinit var productPositionLiveDataWrapper: FakeProductPositionLiveDataWrapper
     private lateinit var runAsync: FakeRunAsync
     private lateinit var mapper: FakeMapperProductDetails
 
@@ -30,12 +32,14 @@ class ProductDetailsViewModelTest {
         communication = FakeProductsDetailsCommunication()
         repository = FakeProductsDetailsRepository()
         cartBadgeLiveDataWrapper = FakeCartBadgeLiveDataWrapper()
-        mapper = FakeMapperProductDetails()
+        productPositionLiveDataWrapper = FakeProductPositionLiveDataWrapper()
         runAsync = FakeRunAsync()
+        mapper = FakeMapperProductDetails()
         viewModel = ProductDetailsViewModel(
             navigation = navigation,
             communication = communication,
             cartBadgeLiveDataWrapper = cartBadgeLiveDataWrapper,
+            productPositionLiveDataWrapper = productPositionLiveDataWrapper,
             repository = repository,
             mapper = mapper,
             runAsync = runAsync
@@ -58,14 +62,13 @@ class ProductDetailsViewModelTest {
                 count = 4,
                 favorite = false,
                 addedToCart = false
-
             )
         )
     }
 
     @Test
     fun testBackToProducts() {
-        viewModel.goToProducts()
+        viewModel.goToProducts(1)
         navigation.checkScreen(Screen.Pop)
     }
 
@@ -113,7 +116,7 @@ private class FakeMapperProductDetails() : ProductItem.Mapper<ProductsDetailsUiM
     )
 }
 
-private class FakeProductsDetailsRepository : ProductsDetailsRepository {
+private class FakeProductsDetailsRepository() : ProductsDetailsRepository {
 
     private var cache = ProductItem.Base(
         id = 1,
@@ -163,4 +166,22 @@ private class FakeProductsDetailsCommunication() : ProductDetailsCommunication {
     }
 
     override fun liveData() = throw IllegalAccessException("Don`t use in unit test")
+}
+
+internal class FakeProductPositionLiveDataWrapper() : ProductPositionLiveDataWrapper.Mutable {
+
+    private var productPosition = 1
+
+    override fun updateUi(value: Int) {
+        productPosition = value
+    }
+
+    fun checkProductPosition(expected: Int) = assertEquals(
+        expected,
+        productPosition
+    )
+
+    override fun liveData(): LiveData<Int> =
+        throw IllegalAccessException("Don`t use in unit test geniy")
+
 }

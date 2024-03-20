@@ -36,9 +36,10 @@ class ProductsAdapter(
 
     override fun getItemCount(): Int = products.size
 
-
-    fun notifyById(id: Int) {
-        notifyItemChanged(products.indexOf(products.find { it.isTheSameId(id) }!!))
+    fun notify(productUi: ProductUi) {
+        val index = products.indexOf(products.find { it.isTheSameById(productUi.id()) }!!)
+        products[index] = productUi
+        notifyItemChanged(index)
     }
 }
 

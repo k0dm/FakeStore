@@ -1,9 +1,9 @@
 package com.example.fakestore.content.products.presentation
 
 import android.util.Log
-import com.example.fakestore.core.ProvideLiveData
 import com.example.fakestore.core.UiUpdate
 import com.example.fakestore.core.presentation.LiveDataWrapper
+import com.example.fakestore.core.presentation.ProvideLiveData
 import javax.inject.Inject
 
 interface ProductPositionLiveDataWrapper {

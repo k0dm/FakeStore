@@ -53,8 +53,12 @@ class ProductsFragment : Fragment() {
             it.show(adapter = adapter)
         }
 
-        viewModel.productPositionLiveData().observe(viewLifecycleOwner) {
-            adapter.notifyById(it)
+        viewModel.productPositionLiveData().observe(viewLifecycleOwner) { id ->
+            viewModel.product(id)
+        }
+
+        viewModel.productUiLiveData().observe(viewLifecycleOwner) { productUi ->
+            adapter.notify(productUi)
         }
 
         viewModel.init(category)

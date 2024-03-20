@@ -43,6 +43,21 @@ class BaseProductsRepository @Inject constructor(
         }
     }
 
+    override suspend fun product(id: Int) = cacheDataSource.product(id).run {
+        ProductItem.Base(
+            id = id,
+            title = title,
+            price = price,
+            description = description,
+            category = category,
+            imageUrl = imageUrl,
+            rate = rate,
+            count = count,
+            favorite = favorite,
+            addedToCart = addedToCart
+        )
+    }
+
     override suspend fun changeAddedToCart(id: Int): Int = cacheDataSource.changeItemAddedToCart(id)
 
 

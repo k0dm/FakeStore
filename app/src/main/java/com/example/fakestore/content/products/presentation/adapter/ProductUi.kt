@@ -7,6 +7,8 @@ import com.squareup.picasso.Picasso
 
 interface ProductUi {
 
+    fun id(): Int = -1
+
     fun type(): ProductTypeUi
 
     fun showMessage(binding: ViewholderErrorBinding) = Unit
@@ -21,7 +23,7 @@ interface ProductUi {
 
     fun changeFavorite(viewModel: ProductAndRetryClickActions) = Unit
 
-    fun isTheSameId(id: Int): Boolean = false
+    fun isTheSameById(id: Int): Boolean = false
 
     data class Base(
         private val id: Int,
@@ -35,6 +37,8 @@ interface ProductUi {
         private var favorite: Boolean,
         private var addedToCart: Boolean
     ) : ProductUi {
+
+        override fun id() = id
 
         override fun retry(viewModel: ProductAndRetryClickActions) {
             viewModel.retry(category)
@@ -51,7 +55,6 @@ interface ProductUi {
             viewModel.goToProductsDetails(id = id, category = category)
         }
 
-
         override fun changeAddedToCart(viewModel: ProductAndRetryClickActions) {
             addedToCart = !addedToCart
             viewModel.changeAddedToCart(id)
@@ -66,11 +69,11 @@ interface ProductUi {
                 .placeholder(R.drawable.products)
                 .into(binding.imageProductImageView);
             binding.addToFavoriteButton.setImageResource(
-                if (favorite == true) R.drawable.favorite else R.drawable.favorite_empty
+                if (favorite) R.drawable.favorite else R.drawable.favorite_empty
             )
 
             binding.addToCartButton.setImageResource(
-                if (addedToCart == true) R.drawable.shopping_bag_full else R.drawable.shopping_bag_icon_empty
+                if (addedToCart) R.drawable.shopping_bag_full else R.drawable.shopping_bag_icon_empty
             )
 
             binding.productViewHolder.setOnClickListener {
@@ -117,7 +120,7 @@ interface ProductUi {
 
         }
 
-        override fun isTheSameId(id: Int) = this.id == id
+        override fun isTheSameById(id: Int) = this.id == id
     }
 
     object Progress : ProductUi {
