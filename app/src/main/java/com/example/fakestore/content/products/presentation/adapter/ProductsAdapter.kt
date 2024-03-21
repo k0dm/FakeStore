@@ -96,7 +96,7 @@ interface ProductAndRetryClickActions {
 
     fun retry(category: String)
 
-    fun goToProductsDetails(id: Int, category: String)
+    fun goToProductsDetails(id: Int)
 
     fun changeAddedToCart(id: Int)
 

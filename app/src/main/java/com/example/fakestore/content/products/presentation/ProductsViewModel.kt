@@ -56,7 +56,7 @@ class ProductsViewModel @Inject constructor(
         init(category)
     }
 
-    override fun goToProductsDetails(id: Int, category: String) {
+    override fun goToProductsDetails(id: Int) {
         navigation.updateUi(ProductDetailsScreen(id))
     }
 

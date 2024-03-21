@@ -147,14 +147,11 @@ class ProductsViewModelTest {
     }
 
     @Test
-    fun testSearchProductWithId() {
-        //pre
+    fun testFindProductById() {
         repository.loadSuccess()
 
-        //action
-        val actual = viewModel.product(1)
+        viewModel.product(1)
 
-        //check
         runAsync.pingResult()
         productUiCommunication.checkUi(
             ProductUi.Base(
@@ -174,15 +171,12 @@ class ProductsViewModelTest {
 
     @Test
     fun testGoToProductDetails() {
-        viewModel.goToProductsDetails(id = 1, category = "category 1")
+        viewModel.goToProductsDetails(id = 1)
         navigation.checkScreen(ProductDetailsScreen(productId = 1))
     }
 
     @Test
-    fun testGoToProductDetailsAndBack() {
-        viewModel.goToProductsDetails(id = 1, category = "category 1")
-        navigation.checkScreen(ProductDetailsScreen(productId = 1))
-
+    fun testGoToProductsAndBack() {
         viewModel.goToCategories()
         navigation.checkScreen(Screen.Pop)
     }
@@ -223,7 +217,6 @@ class ProductsViewModelTest {
             ),
             repository.products("category 1")
         )
-
 
         viewModel.changeAddedToCart(2)
 

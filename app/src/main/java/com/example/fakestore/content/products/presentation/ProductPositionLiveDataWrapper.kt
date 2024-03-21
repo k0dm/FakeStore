@@ -1,6 +1,5 @@
 package com.example.fakestore.content.products.presentation
 
-import android.util.Log
 import com.example.fakestore.core.UiUpdate
 import com.example.fakestore.core.presentation.LiveDataWrapper
 import com.example.fakestore.core.presentation.ProvideLiveData
@@ -14,9 +13,5 @@ interface ProductPositionLiveDataWrapper {
 
     interface Mutable : Update, Provide
 
-    class Base @Inject constructor() : Mutable, LiveDataWrapper.Single<Int>() {
-        init {
-            Log.d("k0dm", "ProductPositionLiveDataWrapper ${hashCode()} ")
-        }
-    }
+    class Base @Inject constructor() : Mutable, LiveDataWrapper.Single<Int>()
 }

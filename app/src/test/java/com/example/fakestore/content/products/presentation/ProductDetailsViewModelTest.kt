@@ -84,18 +84,7 @@ class ProductDetailsViewModelTest {
         viewModel.changeFavorite(id = 1)
         runAsync.pingResult()
 
-        ProductsDetailsUiModel(
-            id = 1,
-            title = "product 1",
-            price = 1.0,
-            description = "this 1",
-            category = "category 1",
-            imageUrl = "url/image1",
-            rate = 5.0,
-            count = 4,
-            favorite = false,
-            addedToCart = true
-        )
+        repository.checkCalledFavorite(1)
     }
 }
 
@@ -135,21 +124,29 @@ private class FakeProductsDetailsRepository() : ProductsDetailsRepository {
         return cache
     }
 
+    private var changeFavoriteCalledCount = 0
+
+
     override suspend fun changeFavorite(id: Int) {
-        if (id == 1) {
-            val oldCache = cache
-            val newCache = cache.copy(favorite = true)
-            cache = newCache
+        if (changeFavoriteCalledCount++ % 2 == 0) {
+            cache = cache.copy(favorite = true)
+        } else {
+            cache = cache.copy(favorite = false)
         }
     }
 
+    fun checkCalledFavorite(expected: Int) = assertEquals(expected, changeFavoriteCalledCount)
+
+    private var changeAddedToCartCalledCount = 0
+
     override suspend fun changeAddedToCart(id: Int): Int {
-        if (id == 1) {
-            val oldCache = cache
-            val newCache = cache.copy(addedToCart = true)
-            cache = newCache
+        return if (changeAddedToCartCalledCount++ % 2 == 0) {
+            cache = cache.copy(addedToCart = true)
+            1
+        } else {
+            cache = cache.copy(addedToCart = false)
+            0
         }
-        return 1
     }
 }
 

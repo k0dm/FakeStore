@@ -52,7 +52,7 @@ interface ProductUi {
         }
 
         override fun goToProductsDetails(viewModel: ProductAndRetryClickActions) {
-            viewModel.goToProductsDetails(id = id, category = category)
+            viewModel.goToProductsDetails(id = id)
         }
 
         override fun changeAddedToCart(viewModel: ProductAndRetryClickActions) {

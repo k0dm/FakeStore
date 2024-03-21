@@ -32,8 +32,8 @@ class ProductDetailsViewModel @Inject constructor(
         })
     }
 
-    fun goToProducts(id: Int) {
-        productPositionLiveDataWrapper.updateUi(id)
+    fun goToProducts(positionId: Int) {
+        productPositionLiveDataWrapper.updateUi(positionId)
         navigation.updateUi(Screen.Pop)
     }
 
