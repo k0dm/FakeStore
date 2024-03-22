@@ -1,10 +1,10 @@
 package com.example.fakestore.di
 
-import com.example.fakestore.products.categories.data.BaseCategoriesRepository
-import com.example.fakestore.products.categories.domain.CategoriesRepository
-import com.example.fakestore.products.categories.presentation.BaseCategoriesLoadResultMapper
-import com.example.fakestore.products.categories.presentation.CategoriesCommunication
-import com.example.fakestore.products.categories.presentation.CategoriesLoadResultMapper
+import com.example.fakestore.content.categories.data.BaseCategoriesRepository
+import com.example.fakestore.content.categories.domain.CategoriesRepository
+import com.example.fakestore.content.categories.presentation.BaseCategoriesLoadResultMapper
+import com.example.fakestore.content.categories.presentation.CategoriesCommunication
+import com.example.fakestore.content.categories.presentation.CategoriesLoadResultMapper
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

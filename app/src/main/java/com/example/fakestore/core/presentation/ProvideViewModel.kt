@@ -1,23 +1,5 @@
 package com.example.fakestore.core
 
-import android.content.Context
-import androidx.lifecycle.ViewModel
-import androidx.room.Room
-import com.example.fakestore.core.data.FakeStoreDatabase
-import com.example.fakestore.main.MainViewModel
-import com.example.fakestore.main.Navigation
-import com.example.fakestore.products.categories.data.BaseCategoriesRepository
-import com.example.fakestore.products.categories.data.HandleError
-import com.example.fakestore.products.categories.data.cache.CategoriesCacheDataSource
-import com.example.fakestore.products.categories.data.cloud.CategoriesCloudDataSource
-import com.example.fakestore.products.categories.data.cloud.CategoryService
-import com.example.fakestore.products.categories.presentation.CategoriesCommunication
-import com.example.fakestore.products.categories.presentation.CategoriesViewModel
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-
 //interface ProvideViewModel {
 //
 //    fun <T : ViewModel> viewModel(clazz: Class<out T>): T

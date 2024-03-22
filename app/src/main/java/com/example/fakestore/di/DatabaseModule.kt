@@ -2,9 +2,9 @@ package com.example.fakestore.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.fakestore.content.categories.data.cache.CategoriesCacheDataSource
+import com.example.fakestore.content.products.data.cache.ProductsDao
 import com.example.fakestore.core.data.FakeStoreDatabase
-import com.example.fakestore.products.categories.data.cache.CategoriesCacheDataSource
-import com.example.fakestore.products.products.data.cache.ProductsDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

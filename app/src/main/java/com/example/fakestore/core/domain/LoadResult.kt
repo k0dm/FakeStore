@@ -9,6 +9,7 @@ interface LoadResult<T : Any> {
         fun mapSuccess(items: List<T>)
 
         fun mapError(message: String)
+
     }
 
     data class Success<T : Any>(private val items: List<T>) : LoadResult<T> {

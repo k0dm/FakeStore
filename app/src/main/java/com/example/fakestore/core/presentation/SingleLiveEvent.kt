@@ -1,4 +1,4 @@
-package com.example.fakestore.core
+package com.example.fakestore.core.presentation
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner

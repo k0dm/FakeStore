@@ -48,11 +48,12 @@ class MainActivity : AppCompatActivity() {
                 cartBadge.isVisible = false
             } else {
                 cartBadge.number = it
+
                 cartBadge.isVisible = true
             }
         }
 
-        viewModel.liveData().observe(this) {
+        viewModel.navigationLiveData().observe(this) {
             it.show(binding.container.id, supportFragmentManager)
         }
 

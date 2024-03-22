@@ -13,17 +13,21 @@ interface Screen {
 
     abstract class Replace(private val clasz: Class<out Fragment>) : Screen {
         override fun show(containerId: Int, supportFragmentManager: FragmentManager) {
+            for (i in 0 until supportFragmentManager.backStackEntryCount) {
+                supportFragmentManager.popBackStack()
+            }
             supportFragmentManager
                 .beginTransaction()
-                .replace(containerId, clasz, null)
+                .replace(containerId, fragment())
                 .commit()
         }
+
+        protected open fun fragment(): Fragment = clasz.getDeclaredConstructor().newInstance()
     }
 
     abstract class Add(private val clasz: Class<out Fragment>) : Screen {
         override fun show(containerId: Int, supportFragmentManager: FragmentManager) {
             supportFragmentManager.beginTransaction()
-                .setReorderingAllowed(true)
                 .add(containerId, fragment())
                 .addToBackStack(clasz.simpleName)
                 .commit()

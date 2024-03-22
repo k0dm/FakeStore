@@ -1,19 +1,21 @@
 package com.example.fakestore.di
 
-import com.example.fakestore.core.UiUpdate
+import com.example.fakestore.content.products.data.BaseProductsRepository
+import com.example.fakestore.content.products.data.cache.ProductsCacheDataSource
+import com.example.fakestore.content.products.data.cloud.ProductsCloudDataSource
+import com.example.fakestore.content.products.data.cloud.ProductsService
+import com.example.fakestore.content.products.domain.ProductItem
+import com.example.fakestore.content.products.domain.ProductsRepository
+import com.example.fakestore.content.products.presentation.BaseProductsLoadResultMapper
+import com.example.fakestore.content.products.presentation.ProductCommunication
+import com.example.fakestore.content.products.presentation.ProductItemToProductUiMapper
+import com.example.fakestore.content.products.presentation.ProductPositionLiveDataWrapper
+import com.example.fakestore.content.products.presentation.ProductsCommunication
+import com.example.fakestore.content.products.presentation.adapter.ProductUi
 import com.example.fakestore.core.domain.LoadResult
+import com.example.fakestore.core.presentation.ProvideLiveData
 import com.example.fakestore.main.CartBadgeLiveDataWrapper
 import com.example.fakestore.main.CartBadgeStorage
-import com.example.fakestore.products.products.data.BaseProductsRepository
-import com.example.fakestore.products.products.data.cache.ProductsCacheDataSource
-import com.example.fakestore.products.products.data.cloud.ProductsCloudDataSource
-import com.example.fakestore.products.products.data.cloud.ProductsService
-import com.example.fakestore.products.products.domain.ProductItem
-import com.example.fakestore.products.products.domain.ProductsRepository
-import com.example.fakestore.products.products.presentation.BaseProductsLoadResultMapper
-import com.example.fakestore.products.products.presentation.ProductItemToProductUiMapper
-import com.example.fakestore.products.products.presentation.ProductsCommunication
-import com.example.fakestore.products.products.presentation.adapter.ProductUi
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -32,6 +34,10 @@ abstract class ProductsModule {
 
     @Binds
     @ViewModelScoped
+    abstract fun bindProductUiCommunication(communication: ProductCommunication.Base): ProductCommunication
+
+    @Binds
+    @ViewModelScoped
     abstract fun bindRepository(repository: BaseProductsRepository): ProductsRepository
 
     @Binds
@@ -44,11 +50,20 @@ abstract class ProductsModule {
 
     @Binds
     @ViewModelScoped
-    abstract fun bindLiveData(liveData: CartBadgeLiveDataWrapper): UiUpdate<Int>
+    abstract fun bindCartBadgeLiveData(liveData: CartBadgeLiveDataWrapper.Mutable): CartBadgeLiveDataWrapper.Update
+
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindProductPositionLiveData(liveData: ProductPositionLiveDataWrapper.Mutable): ProductPositionLiveDataWrapper.Provide
 
     @Binds
     @ViewModelScoped
     abstract fun bindCartBadgeStorageSave(storage: CartBadgeStorage.Base): CartBadgeStorage.Save
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindProductPositionLiveDataWrapper(liveDataWrapper: ProvideLiveData<Int>): ProvideLiveData<Int>
 
     @Binds
     @ViewModelScoped
@@ -60,5 +75,6 @@ abstract class ProductsModule {
         @ViewModelScoped
         fun provideProductsCloudDataSource(retrofit: Retrofit): ProductsCloudDataSource =
             ProductsCloudDataSource.Base(retrofit.create(ProductsService::class.java))
+
     }
 }
