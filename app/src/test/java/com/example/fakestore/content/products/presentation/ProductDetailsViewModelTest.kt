@@ -49,6 +49,7 @@ class ProductDetailsViewModelTest {
     @Test
     fun testInit() {
         viewModel.init(id = 1)
+
         runAsync.pingResult()
         communication.checkUpdatedUi(
             ProductsDetailsUiModel(
@@ -68,23 +69,71 @@ class ProductDetailsViewModelTest {
 
     @Test
     fun testBackToProducts() {
-        viewModel.goToProducts(1)
+        viewModel.goToProducts(positionId = 1)
+
+        productPositionLiveDataWrapper.checkProductPosition(1)
         navigation.checkScreen(Screen.Pop)
     }
 
     @Test
     fun testChangeAddedToCart() {
         viewModel.changeAddedToCart(id = 1)
+
         runAsync.pingResult()
         cartBadgeLiveDataWrapper.checkUpdatedValue(1)
+
+        runAsync.pingResult()
+        communication.checkUpdatedUi(
+            ProductsDetailsUiModel(
+                id = 1,
+                title = "product 1",
+                price = 1.0,
+                description = "this 1",
+                category = "category 1",
+                imageUrl = "url/image1",
+                rate = 5.0,
+                count = 4,
+                favorite = false,
+                addedToCart = true
+            )
+        )
     }
 
     @Test
     fun testChangeFavorite() {
         viewModel.changeFavorite(id = 1)
-        runAsync.pingResult()
 
+        runAsync.pingResult()
         repository.checkCalledFavorite(1)
+        repository.checkCache(ProductItem.Base(
+            id = 1,
+            title = "product 1",
+            price = 1.0,
+            description = "this 1",
+            category = "category 1",
+            imageUrl = "url/image1",
+            rate = 5.0,
+            count = 4,
+            favorite = true,
+            addedToCart = false
+        ))
+
+        viewModel.changeFavorite(id = 1)
+
+        runAsync.pingResult()
+        repository.checkCalledFavorite(2)
+        repository.checkCache(ProductItem.Base(
+            id = 1,
+            title = "product 1",
+            price = 1.0,
+            description = "this 1",
+            category = "category 1",
+            imageUrl = "url/image1",
+            rate = 5.0,
+            count = 4,
+            favorite = false,
+            addedToCart = false
+        ))
     }
 }
 
@@ -126,13 +175,16 @@ private class FakeProductsDetailsRepository() : ProductsDetailsRepository {
 
     private var changeFavoriteCalledCount = 0
 
-
     override suspend fun changeFavorite(id: Int) {
-        if (changeFavoriteCalledCount++ % 2 == 0) {
-            cache = cache.copy(favorite = true)
+        cache = if (changeFavoriteCalledCount++ % 2 == 0) {
+            cache.copy(favorite = true)
         } else {
-            cache = cache.copy(favorite = false)
+            cache.copy(favorite = false)
         }
+    }
+
+    fun checkCache(expected: ProductItem) {
+        assertEquals(expected, cache)
     }
 
     fun checkCalledFavorite(expected: Int) = assertEquals(expected, changeFavoriteCalledCount)

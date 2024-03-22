@@ -39,6 +39,7 @@ class MainViewModelTest {
     fun testNotFirstRun() {
         viewModel.init(isFirstRun = false)
         navigation.checkScreen(Screen.Empty)
+        cartBadgeLiveDataWrapper.checkUpdatedValue(value = -1)
     }
 
     @Test

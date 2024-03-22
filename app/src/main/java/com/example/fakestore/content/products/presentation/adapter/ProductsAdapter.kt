@@ -101,5 +101,4 @@ interface ProductAndRetryClickActions {
     fun changeAddedToCart(id: Int)
 
     fun changeAddedToFavorites(id: Int)
-
 }
