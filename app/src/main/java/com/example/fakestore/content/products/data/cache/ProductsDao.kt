@@ -18,7 +18,7 @@ interface ProductsDao {
     suspend fun saveProducts(products: List<ProductEntity>)
 
     @Query("SELECT * FROM products WHERE favorite = 1")
-    suspend fun favoriteProduct(): List<ProductEntity>
+    suspend fun favoritesProducts(): List<ProductEntity>
 
     @Query("SELECT * FROM products WHERE added_to_cart = 1")
     suspend fun addedToCartProducts(): List<ProductEntity>

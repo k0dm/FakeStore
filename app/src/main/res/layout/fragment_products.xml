@@ -38,10 +38,6 @@
             android:layout_weight="1" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/productsRecyclerView"
@@ -50,7 +46,7 @@
         android:layout_gravity="center"
         android:layout_weight="1"
         android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
         app:spanCount="2"
         tools:listitem="@layout/viewholder_products" />
 </LinearLayout>
