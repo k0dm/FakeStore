@@ -8,4 +8,5 @@
     <string name="retry">Retry</string>
     <string name="description">Description:</string>
     <string name="buy">Buy</string>
+    <string name="add_products_to_your_favorites">Add products to your favorites</string>
 </resources>

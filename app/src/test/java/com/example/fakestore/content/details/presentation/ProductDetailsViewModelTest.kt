@@ -1,12 +1,10 @@
-package com.example.fakestore.content.products.presentation
+package com.example.fakestore.content.details.presentation
 
 
 import androidx.lifecycle.LiveData
 import com.example.fakestore.content.details.domain.ProductsDetailsRepository
-import com.example.fakestore.content.details.presentation.ProductDetailsCommunication
-import com.example.fakestore.content.details.presentation.ProductDetailsViewModel
-import com.example.fakestore.content.details.presentation.ProductsDetailsUiModel
 import com.example.fakestore.content.products.domain.ProductItem
+import com.example.fakestore.content.products.presentation.ProductPositionLiveDataWrapper
 import com.example.fakestore.core.FakeNavigation
 import com.example.fakestore.core.FakeRunAsync
 import com.example.fakestore.main.FakeCartBadgeLiveDataWrapper

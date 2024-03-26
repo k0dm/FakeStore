@@ -1,6 +1,7 @@
 package com.example.fakestore.content.products.presentation
 
 import androidx.lifecycle.LiveData
+import com.example.fakestore.content.details.presentation.FakeProductPositionLiveDataWrapper
 import com.example.fakestore.content.details.presentation.ProductDetailsScreen
 import com.example.fakestore.content.products.domain.ProductItem
 import com.example.fakestore.content.products.domain.ProductsRepository
@@ -259,22 +260,6 @@ class ProductsViewModelTest {
 
 }
 
-private class FakeProductsCommunication : ProductsCommunication {
-
-    private var actualUiState: ProductsUiState = ProductsUiState.Empty
-
-    override fun updateUi(value: ProductsUiState) {
-        actualUiState = value
-    }
-
-    override fun liveData(): LiveData<ProductsUiState> {
-        throw IllegalAccessException("Don`t use in test")
-    }
-
-    fun checkUiState(uiState: ProductsUiState) {
-        assertEquals(uiState, actualUiState)
-    }
-}
 
 private class FakeProductsRepository : ProductsRepository {
 
@@ -468,6 +453,23 @@ private class FakeProductUiCommunication() : ProductCommunication {
 
     fun checkUi(productUi: ProductUi) {
         assertEquals(storage, productUi)
+    }
+}
+
+private class FakeProductsCommunication : ProductsCommunication {
+
+    private var actualUiState: ProductsUiState = ProductsUiState.Empty
+
+    override fun updateUi(value: ProductsUiState) {
+        actualUiState = value
+    }
+
+    override fun liveData(): LiveData<ProductsUiState> {
+        throw IllegalAccessException("Don`t use in test")
+    }
+
+    fun checkUiState(uiState: ProductsUiState) {
+        assertEquals(uiState, actualUiState)
     }
 }
 

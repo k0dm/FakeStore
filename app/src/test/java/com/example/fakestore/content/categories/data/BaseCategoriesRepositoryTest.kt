@@ -14,13 +14,13 @@ class BaseCategoriesRepositoryTest {
 
     private lateinit var repository: CategoriesRepository
     private lateinit var cloudDataSource: FakeCloudDataSource
-    private lateinit var cacheDataSource: FakeCacheDataSource
+    private lateinit var cacheDataSource: FakeCategoriesCacheDataSource
     private lateinit var handleError: FakeHandleError
 
     @Before
     fun setUp() {
         cloudDataSource = FakeCloudDataSource()
-        cacheDataSource = FakeCacheDataSource()
+        cacheDataSource = FakeCategoriesCacheDataSource()
         handleError = FakeHandleError()
         repository = BaseCategoriesRepository(
             cloudDataSource = cloudDataSource,
@@ -64,7 +64,7 @@ class BaseCategoriesRepositoryTest {
     }
 }
 
-private class FakeCacheDataSource() : CategoriesCacheDataSource {
+private class FakeCategoriesCacheDataSource() : CategoriesCacheDataSource {
 
     private var hasCache = true
 
@@ -87,7 +87,7 @@ private class FakeCacheDataSource() : CategoriesCacheDataSource {
     }
 }
 
-private class FakeCloudDataSource() : CategoriesCloudDataSource {
+internal class FakeCloudDataSource() : CategoriesCloudDataSource {
 
     private var loadSuccess = true
 

@@ -36,4 +36,11 @@ interface ProductTypeUi {
             )
         )
     }
+
+    object Empty : ProductTypeUi {
+        override fun createViewHolder(parent: ViewGroup): ProductViewHolder {
+            TODO("Not yet implemented")
+        }
+
+    }
 }

@@ -1,35 +1,30 @@
-package com.example.fakestore.content.products.presentation.adapter
+package com.example.fakestore.favorites.presentation.adapter
 
 import com.example.fakestore.R
-import com.example.fakestore.databinding.ViewholderErrorBinding
-import com.example.fakestore.databinding.ViewholderProductsBinding
-import com.example.fakestore.favorites.presentation.adapter.ProductFavoriteUi
+import com.example.fakestore.databinding.ViewholderFavoriteProductsBinding
+import com.example.fakestore.databinding.ViewholderNoFavoritesBinding
 import com.squareup.picasso.Picasso
 
-interface ProductUi {
+interface ProductFavoriteUi {
 
     fun id(): Int = -1
 
-    fun type(): ProductTypeUi
+    fun changeAddedToCart(viewModel: ProductFavoriteActions) = Unit
 
-    fun showMessage(binding: ViewholderErrorBinding) = Unit
+    fun changeFavorite(viewModel: ProductFavoriteActions) = Unit
 
-    fun showProducts(binding: ViewholderProductsBinding, adapter: ProductsAdapter) = Unit
-
-    fun goToProductsDetails(viewModel: ProductAndRetryClickActions) = Unit
-
-    fun retry(viewModel: ProductAndRetryClickActions) = Unit
-
-    fun changeAddedToCart(viewModel: ProductAndRetryClickActions) = Unit
-
-    fun map(): ProductFavoriteUi = ProductFavoriteUi.Base(
-        1, "1", 1.1, "1", "1", "1", 1.1, 1, false, false
-    )
-
-
-    fun changeFavorite(viewModel: ProductAndRetryClickActions) = Unit
+    fun goToProductsDetails(viewModel: ProductFavoriteActions) = Unit
 
     fun isTheSameById(id: Int): Boolean = false
+
+    fun type(): ProductFavoriteTypeUi
+
+    fun showFavoriteProducts(
+        binding: ViewholderFavoriteProductsBinding,
+        adapter: ProductsFavoritesAdapter
+    ) = Unit
+
+    fun showNoFavorites(binding: ViewholderNoFavoritesBinding) = Unit
 
     data class Base(
         private val id: Int,
@@ -42,36 +37,14 @@ interface ProductUi {
         private val count: Int,
         private var favorite: Boolean,
         private var addedToCart: Boolean
-    ) : ProductUi {
+    ) : ProductFavoriteUi {
 
-        override fun map(): ProductFavoriteUi = ProductFavoriteUi.Base(
-            id, title, price, description, category, imageUrl, rate, count, favorite, addedToCart
-        )
+        override fun type(): ProductFavoriteTypeUi = ProductFavoriteTypeUi.Base
 
-
-        override fun id() = id
-
-        override fun retry(viewModel: ProductAndRetryClickActions) {
-            viewModel.retry(category)
-        }
-
-        override fun type() = ProductTypeUi.Base
-
-        override fun changeFavorite(viewModel: ProductAndRetryClickActions) {
-            favorite = !favorite
-            viewModel.changeAddedToFavorites(id)
-        }
-
-        override fun goToProductsDetails(viewModel: ProductAndRetryClickActions) {
-            viewModel.goToProductsDetails(id = id)
-        }
-
-        override fun changeAddedToCart(viewModel: ProductAndRetryClickActions) {
-            addedToCart = !addedToCart
-            viewModel.changeAddedToCart(id)
-        }
-
-        override fun showProducts(binding: ViewholderProductsBinding, adapter: ProductsAdapter) {
+        override fun showFavoriteProducts(
+            binding: ViewholderFavoriteProductsBinding,
+            adapter: ProductsFavoritesAdapter
+        ) {
             binding.priceTextView.text = price.toString()
             binding.rateTextView.text = rate.toString()
             binding.titleTextView.text = title
@@ -128,28 +101,30 @@ interface ProductUi {
                     R.drawable.empty_star
                 }
             )
-
         }
 
-        override fun isTheSameById(id: Int) = this.id == id
-    }
+        override fun changeFavorite(viewModel: ProductFavoriteActions) {
+            favorite = !favorite
+            viewModel.changeAddedToFavorites(id)
+        }
 
-    object Progress : ProductUi {
+        override fun goToProductsDetails(viewModel: ProductFavoriteActions) {
+            viewModel.goToProductsDetails(id = id)
+        }
 
-        override fun type() = ProductTypeUi.Progress
-    }
-
-    data class Error(private val message: String) : ProductUi {
-
-        override fun type() = ProductTypeUi.Error
-
-        override fun showMessage(binding: ViewholderErrorBinding) {
-            binding.errorTextView.text = message
+        override fun changeAddedToCart(viewModel: ProductFavoriteActions) {
+            addedToCart = !addedToCart
+            viewModel.changeAddedToCart(id)
         }
     }
 
+    object NoFavorites : ProductFavoriteUi {
 
-    object Empty : ProductUi {
-        override fun type(): ProductTypeUi = ProductTypeUi.Empty
+        override fun type() = ProductFavoriteTypeUi.NoFavorites
+
+        override fun showNoFavorites(binding: ViewholderNoFavoritesBinding) {
+            binding.textView.setText(R.string.add_products_to_your_favorites) // Add products to your favorites
+        }
     }
+
 }

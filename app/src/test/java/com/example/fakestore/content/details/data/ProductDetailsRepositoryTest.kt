@@ -1,12 +1,10 @@
-package com.example.fakestore.content.products.data.details
+package com.example.fakestore.content.details.data
 
-import com.example.fakestore.content.details.data.BaseProductsDetailsRepository
 import com.example.fakestore.content.products.data.cache.ProductEntity
 import com.example.fakestore.content.products.data.cache.ProductsCacheDataSource
 import com.example.fakestore.content.products.domain.ProductItem
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
@@ -24,7 +22,7 @@ class ProductDetailsRepositoryTest {
     @Test
     fun testGetTheProductById() = runBlocking {
         val actualProduct = repository.product(id = 1)
-        assertEquals(
+        Assert.assertEquals(
             ProductItem.Base(
                 id = 1,
                 title = "1",
@@ -53,16 +51,16 @@ class ProductDetailsRepositoryTest {
     @Test
     fun testChangeCart() = runBlocking {
         var size = repository.changeAddedToCart(id = 1)
-        assertEquals(1, size)
+        Assert.assertEquals(1, size)
         cacheDataSource.checkAddedToCart()
 
         size = repository.changeAddedToCart(id = 1)
-        assertEquals(0, size)
+        Assert.assertEquals(0, size)
         cacheDataSource.checkRemovedFromCart()
     }
 }
 
-private class FakeProductsCacheDataSource() : ProductsCacheDataSource {
+internal class FakeProductsCacheDataSource() : ProductsCacheDataSource {
 
     private var cache = ProductEntity(
         id = 1,

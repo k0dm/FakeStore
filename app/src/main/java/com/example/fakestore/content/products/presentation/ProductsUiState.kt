@@ -26,6 +26,8 @@ interface ProductsUiState {
     }
 
     object Empty : ProductsUiState {
-        override fun show(adapter: ProductsAdapter) = Unit
+        override fun show(adapter: ProductsAdapter) {
+            TODO("Not yet implemented")
+        }
     }
 }

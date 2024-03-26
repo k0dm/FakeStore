@@ -3,6 +3,7 @@ package com.example.fakestore.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.fakestore.content.categories.presentation.CategoryScreen
+import com.example.fakestore.favorites.presentation.FavoriteScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -25,4 +26,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun navigateToProducts() = navigation.updateUi(CategoryScreen)
+    fun navigateToFavorites() {
+        navigation.updateUi(FavoriteScreen)
+    }
 }

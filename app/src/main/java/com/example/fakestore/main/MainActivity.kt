@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.itemFavorites -> {
+                    viewModel.navigateToFavorites()
                     true
                 }
 

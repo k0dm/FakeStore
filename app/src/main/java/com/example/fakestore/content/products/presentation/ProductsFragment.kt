@@ -54,7 +54,7 @@ class ProductsFragment : Fragment() {
         }
 
         viewModel.productPositionLiveData().observe(viewLifecycleOwner) { id ->
-            viewModel.product(id)
+            viewModel.init(category)
         }
 
         viewModel.productUiLiveData().observe(viewLifecycleOwner) { productUi ->

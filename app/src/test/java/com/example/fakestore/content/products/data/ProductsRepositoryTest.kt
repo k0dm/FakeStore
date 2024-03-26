@@ -20,13 +20,13 @@ class ProductsRepositoryTest {
 
     private lateinit var repository: ProductsRepository
     private lateinit var cloudDataSource: FakeCloudDataSource
-    private lateinit var cacheDataSource: FakeCacheDataSource
+    private lateinit var cacheDataSource: FakeProductsCacheDataSource
     private lateinit var handleError: FakeHandleError
 
     @Before
     fun setUp() {
         cloudDataSource = FakeCloudDataSource()
-        cacheDataSource = FakeCacheDataSource()
+        cacheDataSource = FakeProductsCacheDataSource()
         handleError = FakeHandleError()
         repository = BaseProductsRepository(
             cloudDataSource = cloudDataSource,
@@ -188,6 +188,11 @@ class ProductsRepositoryTest {
     }
 
     @Test
+    fun testFindProductById() = runBlocking {
+
+    }
+
+    @Test
     fun testChangeFavorite() = runBlocking {
         cacheDataSource.hasCache()
 
@@ -206,9 +211,45 @@ class ProductsRepositoryTest {
         assertEquals(1, size)
         cacheDataSource.checkAddedToCart(id = 1)
 
+        cacheDataSource.hasCache()
+
+        var actual = repository.product(id = 1)
+        assertEquals(
+            ProductItem.Base(
+                id = 1,
+                title = "1",
+                price = 1.0,
+                description = "this is 1",
+                category = "category 1",
+                imageUrl = "url/image1",
+                rate = 5.0,
+                count = 5,
+                favorite = false,
+                addedToCart = true,
+            ),
+            actual
+        )
+
         size = repository.changeAddedToCart(id = 1)
         assertEquals(0, size)
         cacheDataSource.checkRemovedFromCart(id = 1)
+
+        actual = repository.product(id = 1)
+        assertEquals(
+            ProductItem.Base(
+                id = 1,
+                title = "1",
+                price = 1.0,
+                description = "this is 1",
+                category = "category 1",
+                imageUrl = "url/image1",
+                rate = 5.0,
+                count = 5,
+                favorite = false,
+                addedToCart = false,
+            ),
+            actual
+        )
     }
 }
 
@@ -256,7 +297,7 @@ private class FakeCloudDataSource() : ProductsCloudDataSource {
     }
 }
 
-private class FakeCacheDataSource() : ProductsCacheDataSource {
+internal class FakeProductsCacheDataSource() : ProductsCacheDataSource {
 
     private val cache = arrayListOf<ProductEntity>()
 
@@ -269,7 +310,12 @@ private class FakeCacheDataSource() : ProductsCacheDataSource {
     }
 
     override suspend fun product(id: Int): ProductEntity {
-        TODO("Not yet implemented")
+        return if (id == 1) {
+            cache[0]
+
+        } else {
+            cache[1]
+        }
     }
 
     override suspend fun saveProducts(products: List<ProductEntity>) {
