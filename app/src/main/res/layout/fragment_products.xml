@@ -40,8 +40,6 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:animateLayoutChanges="false"
-        android:animationCache="false"
         android:id="@+id/productsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
