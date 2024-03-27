@@ -30,9 +30,12 @@ class FavoriteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val adapter = ProductsFavoritesAdapter(viewModel)
         binding.productsRecyclerView.adapter = adapter
+        binding.productsRecyclerView.itemAnimator = null
+
         viewModel.liveData().observe(viewLifecycleOwner) {
             it.show(adapter)
         }
+
         viewModel.productPositionLiveData().observe(viewLifecycleOwner) {
             viewModel.init()
         }

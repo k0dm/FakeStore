@@ -67,8 +67,7 @@ abstract class ProductViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         }
     }
 
-    class Base(private val binding: ViewholderProductsBinding) :
-        ProductViewHolder(binding.root) {
+    class Base(private val binding: ViewholderProductsBinding) : ProductViewHolder(binding.root) {
 
         override fun bind(
             productUi: ProductUi,
@@ -102,3 +101,4 @@ interface ProductAndRetryClickActions {
 
     fun changeAddedToFavorites(id: Int)
 }
+
