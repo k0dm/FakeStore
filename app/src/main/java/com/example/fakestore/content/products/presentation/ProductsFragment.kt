@@ -41,13 +41,16 @@ class ProductsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val adapter = ProductsAdapter(viewModel = viewModel)
-
+        binding.productsRecyclerView.itemAnimator = null
         category = requireArguments().getString(KEY_CATEGORY)!!
+
         binding.productsRecyclerView.adapter = adapter
         binding.categoryTextView.text = category
         binding.backToCategoriesImageButton.setOnClickListener {
             viewModel.goToCategories()
         }
+
+
 
         viewModel.liveData().observe(viewLifecycleOwner) {
             it.show(adapter = adapter)
