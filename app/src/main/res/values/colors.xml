@@ -2,4 +2,12 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="red">#FF0303</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="card_stroke_color">#A4A4A4</color>
+    <color name="background_app">#EAEAEA</color>
+    <color name="navbar_secondary_container">#000000</color>
+    <color name="navbar_surface_container">#FFFFFF</color>
+    <color name="search_surface_container_high">#FFFFFF</color>
 </resources>
