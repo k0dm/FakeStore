@@ -79,6 +79,10 @@ internal class FakeProductsCacheDataSource() : ProductsCacheDataSource {
         return listOf(cache)
     }
 
+    override suspend fun cartProducts(): List<ProductEntity> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun product(id: Int): ProductEntity = cache
 
     override suspend fun saveProducts(products: List<ProductEntity>) {

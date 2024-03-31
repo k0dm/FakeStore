@@ -2,9 +2,11 @@ package com.example.fakestore.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.fakestore.cart.data.cache.CartDao
 import com.example.fakestore.content.categories.data.cache.CategoriesCacheDataSource
 import com.example.fakestore.content.products.data.cache.ProductsDao
 import com.example.fakestore.core.data.FakeStoreDatabase
+import com.example.fakestore.ordershistory.data.OrderHistoryDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,4 +33,11 @@ object DatabaseModule {
 
     @Provides
     fun provideProductsDao(database: FakeStoreDatabase): ProductsDao = database.productsDao()
+
+    @Provides
+    fun provideCartDao(database: FakeStoreDatabase): CartDao = database.cartDao()
+
+    @Provides
+    fun provideOrderHistoryDao(database: FakeStoreDatabase): OrderHistoryDao =
+        database.ordersHistoryDao()
 }

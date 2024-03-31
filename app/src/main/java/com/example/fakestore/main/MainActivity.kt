@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.itemCart -> {
+                    viewModel.navigateToCart()
                     true
                 }
 

@@ -9,4 +9,7 @@
     <string name="description">Description:</string>
     <string name="buy">Buy</string>
     <string name="add_products_to_your_favorites">Add products to your favorites</string>
+    <string name="proceed_to_payment">Proceed To Payment</string>
+    <string name="no_added_items_in_a_cart">No added items in a cart</string>
+    <string name="subtotal">Subtotal:</string>
 </resources>

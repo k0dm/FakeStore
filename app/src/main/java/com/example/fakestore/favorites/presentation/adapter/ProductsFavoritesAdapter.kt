@@ -66,7 +66,7 @@ abstract class ProductFavoriteViewHolder(view: View) : RecyclerView.ViewHolder(v
             viewModel: ProductFavoriteActions,
             adapter: ProductsFavoritesAdapter
         ) {
-            binding.okay.setOnClickListener {
+            binding.productViewHolder.setOnClickListener {
                 productFavoriteUi.goToProductsDetails(viewModel)
             }
 
@@ -106,3 +106,4 @@ interface ProductFavoriteActions {
 
     fun changeAddedToFavorites(id: Int)
 }
+

@@ -309,6 +309,10 @@ internal class FakeProductsCacheDataSource() : ProductsCacheDataSource {
         } else emptyList()
     }
 
+    override suspend fun cartProducts(): List<ProductEntity> {
+        return cache
+    }
+
     override suspend fun product(id: Int): ProductEntity {
         return if (id == 1) {
             cache[0]
@@ -384,5 +388,37 @@ internal class FakeProductsCacheDataSource() : ProductsCacheDataSource {
 
         cache[cache.indexOf(item)] = item.copy(addedToCart = !item.addedToCart)
         return if (item.addedToCart) 0 else 1
+    }
+
+    fun hasProductsInCart() {
+        hasCache = true
+        cache.add(
+            ProductEntity(
+                id = 1,
+                title = "1",
+                price = 1.0,
+                description = "this is 1",
+                category = "category 1",
+                imageUrl = "url/image1",
+                rate = 5.0,
+                count = 5,
+                favorite = false,
+                addedToCart = true,
+            )
+        )
+        cache.add(
+            ProductEntity(
+                id = 2,
+                title = "2",
+                price = 2.0,
+                description = "this is 2",
+                category = "category 1",
+                imageUrl = "url/image2",
+                rate = 5.0,
+                count = 5,
+                favorite = false,
+                addedToCart = true,
+            )
+        )
     }
 }
