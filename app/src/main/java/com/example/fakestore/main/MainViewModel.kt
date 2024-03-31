@@ -2,6 +2,7 @@ package com.example.fakestore.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.fakestore.cart.presentation.CartScreen
 import com.example.fakestore.content.categories.presentation.CategoryScreen
 import com.example.fakestore.favorites.presentation.FavoriteScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,7 +27,9 @@ class MainViewModel @Inject constructor(
     }
 
     fun navigateToProducts() = navigation.updateUi(CategoryScreen)
-    fun navigateToFavorites() {
-        navigation.updateUi(FavoriteScreen)
-    }
+
+    fun navigateToFavorites() = navigation.updateUi(FavoriteScreen)
+
+    fun navigateToCart() = navigation.updateUi(CartScreen)
+
 }

@@ -74,7 +74,7 @@ abstract class ProductViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             viewModel: ProductAndRetryClickActions,
             adapter: ProductsAdapter
         ) {
-            binding.imageProductImageView.setOnClickListener {
+            binding.productViewHolder.setOnClickListener {
                 productUi.goToProductsDetails(viewModel)
             }
 
