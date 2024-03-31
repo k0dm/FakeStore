@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.fakestore.cart.presentation.CartScreen
 import com.example.fakestore.content.categories.presentation.CategoryScreen
 import com.example.fakestore.favorites.presentation.FavoriteScreen
+import com.example.fakestore.ordershistory.presentation.OrdersScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -31,5 +32,7 @@ class MainViewModel @Inject constructor(
     fun navigateToFavorites() = navigation.updateUi(FavoriteScreen)
 
     fun navigateToCart() = navigation.updateUi(CartScreen)
+
+    fun navigateToOrders() = navigation.updateUi(OrdersScreen)
 
 }

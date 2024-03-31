@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.itemProfile -> {
+                    viewModel.navigateToOrders()
                     true
                 }
 

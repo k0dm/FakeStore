@@ -3,7 +3,7 @@
     <string name="products">Products</string>
     <string name="favorites">Favorites</string>
     <string name="cart">Cart</string>
-    <string name="profile">Profile</string>
+    <string name="Orders">Orders</string>
     <string name="categories">Categories</string>
     <string name="retry">Retry</string>
     <string name="description">Description:</string>
@@ -12,4 +12,9 @@
     <string name="proceed_to_payment">Proceed To Payment</string>
     <string name="no_added_items_in_a_cart">No added items in a cart</string>
     <string name="subtotal">Subtotal:</string>
+    <string name="my_orders">My orders</string>
+    <string name="attribute">№</string>
+    <string name="price">Price:</string>
+    <string name="count">Count:</string>
+    <string name="no_orders">No Orders</string>
 </resources>
