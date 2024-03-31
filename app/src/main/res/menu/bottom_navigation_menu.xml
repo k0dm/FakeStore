@@ -19,6 +19,6 @@
 
     <item
         android:id="@+id/itemProfile"
-        android:icon="@drawable/account_circle"
-        android:title="@string/profile" />
+        android:icon="@drawable/orders"
+        android:title="@string/Orders" />
 </menu>
